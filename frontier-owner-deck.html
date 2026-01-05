@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier Gaming Systems - Pitch Deck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.excluded {
+            opacity: 0.3;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        /* Slide Toggle Button */
+        .slide-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .slide-toggle:hover {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .slide-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #2ecc71;
+        }
+
+        .slide-toggle span {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Control Panel Slide */
+        .slide-control {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+        }
+
+        .control-panel {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .control-panel h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .control-panel .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .slide-checklist {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .checklist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .checklist-header h3 {
+            font-size: 1.2rem;
+            color: #8ec5fc;
+        }
+
+        .checklist-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .checklist-actions button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-actions button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .checklist-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .checklist-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #2ecc71;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .checklist-item.unchecked label {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: line-through;
+        }
+
+        .download-section {
+            text-align: center;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+        }
+
+        .download-hint {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Slide 1 - Title */
+        .slide-title {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            text-align: center;
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(138, 43, 226, 0.08) 0%, transparent 50%);
+        }
+
+        .logo-text {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #a8d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #8ec5fc;
+            margin-bottom: 40px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        /* Common heading styles */
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        h3.subhead {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 50px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        /* Slide - Mission */
+        .slide-mission {
+            background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
+        }
+
+        .mission-content {
+            text-align: center;
+        }
+
+        .mission-content h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .mission-content h2 em {
+            color: #4a90d9;
+            font-style: normal;
+        }
+
+        .mission-content p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .mission-content .highlight-question {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #8ec5fc;
+        }
+
+        /* Slide - Pain Points */
+        .slide-pain {
+            background: linear-gradient(135deg, #1a0a0a 0%, #2a1a1a 100%);
+        }
+
+        .slide-pain h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .quotes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quote {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid #e74c3c;
+            padding: 20px 30px;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.85);
+            border-radius: 0 12px 12px 0;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .quote:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .pain-footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e74c3c;
+        }
+
+        /* Slide - Easy Intro */
+        .slide-easy {
+            background: linear-gradient(135deg, #0a1a0a 0%, #1a2a1a 100%);
+            text-align: center;
+        }
+
+        .slide-easy h2 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+        }
+
+        .slide-easy .big-message {
+            font-size: 1.6rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .easy-points {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .easy-point {
+            text-align: center;
+            max-width: 250px;
+        }
+
+        .easy-point h4 {
+            font-size: 1.3rem;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+
+        .easy-point p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* Slide - Results */
+        .slide-results {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            text-align: center;
+        }
+
+        .big-stat {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .big-stat-label {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 60px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-top: 40px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #2ecc71;
+        }
+
+        .stat-box .label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 10px;
+        }
+
+        .results-footer {
+            margin-top: 60px;
+            font-size: 1.4rem;
+            color: #8ec5fc;
+        }
+
+        /* Slide - One System */
+        .slide-onesystem {
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+        }
+
+        .slide-onesystem h2 {
+            text-align: center;
+        }
+
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .comparison-col {
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .comparison-col.old {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .comparison-col.new {
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .comparison-col h4 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .comparison-col.old h4 { color: #e74c3c; }
+        .comparison-col.new h4 { color: #2ecc71; }
+
+        .comparison-col ul {
+            list-style: none;
+        }
+
+        .comparison-col ul li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .comparison-col ul li:last-child {
+            border-bottom: none;
+        }
+
+        .onesystem-footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #8ec5fc;
+        }
+
+        /* Slide - Easy to Learn */
+        .slide-easylearn {
+            background: linear-gradient(135deg, #1a2a1a 0%, #0f1a0f 100%);
+            text-align: center;
+        }
+
+        .slide-easylearn h2 {
+            margin-bottom: 20px;
+        }
+
+        .slide-easylearn .big-message {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
+        }
+
+        .learn-stats {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+        }
+
+        .learn-stat {
+            text-align: center;
+        }
+
+        .learn-stat .number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #2ecc71;
+            line-height: 1;
+        }
+
+        .learn-stat .unit {
+            font-size: 1.5rem;
+            color: #2ecc71;
+        }
+
+        .learn-stat .label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 15px;
+        }
+
+        /* Slide - Credit Cards */
+        .slide-cards {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2a1a3e 100%);
+        }
+
+        .slide-cards h2 {
+            text-align: center;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .benefit-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .benefit-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .cards-footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .cards-footer .highlight {
+            color: #2ecc71;
+            font-size: 1.8rem;
+        }
+
+        /* Slide - Online Sales */
+        .slide-online {
+            background: linear-gradient(180deg, #0a1a2a 0%, #1a2a3a 100%);
+        }
+
+        .slide-online h2 {
+            text-align: center;
+        }
+
+        .scenario-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .scenario {
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(138, 43, 226, 0.1));
+            padding: 25px 30px;
+            border-radius: 12px;
+            border-left: 4px solid #4a90d9;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .online-footer {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .online-footer p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .online-footer .big {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2ecc71;
+            margin-top: 10px;
+        }
+
+        /* Slide - End of Night */
+        .slide-endofnight {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+        }
+
+        .slide-endofnight h2 {
+            text-align: center;
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            font-size: 1.1rem;
+        }
+
+        .check-item .check {
+            width: 30px;
+            height: 30px;
+            background: #2ecc71;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .endofnight-footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #8ec5fc;
+        }
+
+        /* Slide - No Tech Required */
+        .slide-notech {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+            text-align: center;
+        }
+
+        .slide-notech h2 {
+            margin-bottom: 20px;
+        }
+
+        .slide-notech .big-message {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
+        }
+
+        .notech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .notech-item {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notech-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #8ec5fc;
+        }
+
+        .notech-item p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* Slide - Compliance */
+        .slide-compliance {
+            background: linear-gradient(135deg, #0a1a1a 0%, #1a2a2a 100%);
+        }
+
+        .slide-compliance h2 {
+            text-align: center;
+        }
+
+        .compliance-features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .compliance-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .compliance-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .compliance-item p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .compliance-footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.4rem;
+            color: #2ecc71;
+        }
+
+        /* Slide - How It Works */
+        .slide-howitworks {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+        }
+
+        .slide-howitworks h2 {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .process-flow {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            flex: 1;
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .process-step .number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4a90d9, #8ec5fc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            color: #0a0a0f;
+        }
+
+        .process-step h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .process-step p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .process-arrow {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 40px;
+        }
+
+        /* Slide - Architecture */
+        .slide-architecture {
+            background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
+        }
+
+        .slide-architecture h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .architecture-diagram {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .arch-layer {
+            margin-bottom: 20px;
+        }
+
+        .arch-layer-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 12px;
+        }
+
+        .arch-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .arch-box {
+            flex: 1;
+            max-width: 220px;
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .arch-box.highlight {
+            background: rgba(74, 144, 226, 0.15);
+            border-color: rgba(74, 144, 226, 0.4);
+        }
+
+        .arch-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .arch-box p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
+        }
+
+        .arch-connector {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1.5rem;
+        }
+
+        .arch-core {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.1));
+            border: 2px solid rgba(46, 204, 113, 0.4);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .arch-core h4 {
+            font-size: 1.4rem;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+
+        .arch-core p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .arch-integrations {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .arch-integration {
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Slide - Support */
+        .slide-support {
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+            text-align: center;
+        }
+
+        .slide-support h2 {
+            margin-bottom: 20px;
+        }
+
+        .slide-support .big-message {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
+        }
+
+        .support-points {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .support-point {
+            text-align: center;
+            flex: 1;
+        }
+
+        .support-point h4 {
+            font-size: 1.2rem;
+            color: #8ec5fc;
+            margin-bottom: 10px;
+        }
+
+        .support-point p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* Slide - CTA */
+        .slide-cta {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            text-align: center;
+        }
+
+        .slide-cta h2 {
+            margin-bottom: 15px;
+        }
+
+        .cta-message {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item .label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-item p {
+            font-size: 1.2rem;
+        }
+
+        .contact-item a {
+            color: #8ec5fc;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Slide - Closing */
+        .slide-closing {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            text-align: center;
+        }
+
+        .slide-closing::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 70% 30%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 30% 70%, rgba(138, 43, 226, 0.08) 0%, transparent 50%);
+        }
+
+        .slide-closing .logo-text {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+        }
+
+        .slide-closing .tagline {
+            font-size: 2rem;
+            margin-bottom: 50px;
+        }
+
+        .slide-closing .final-message {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+
+        .slide-closing .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #4a90d9, #8ec5fc);
+            color: #0a0a0f;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .slide-closing .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Slide Numbers */
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Navigation hint - hidden by default, shown when not in print mode */
+        .nav-hint {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            z-index: 100;
+        }
+
+        /* Print Styles */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: #0a0a0f !important;
+            }
+
+            .slide-control,
+            .slide-toggle,
+            .nav-hint,
+            .slide-number {
+                display: none !important;
+            }
+
+            .slide {
+                min-height: 100vh;
+                page-break-after: always;
+                page-break-inside: avoid;
+                break-after: page;
+                break-inside: avoid;
+            }
+
+            .slide:last-child {
+                page-break-after: auto;
+            }
+
+            .slide.excluded {
+                display: none !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .slide {
+                padding: 40px 30px;
+            }
+
+            .logo-text {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .comparison-table,
+            .benefits-grid,
+            .checklist,
+            .compliance-features,
+            .notech-grid,
+            .checklist-items {
+                grid-template-columns: 1fr;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
+                margin: 0 auto;
+            }
+
+            .stats-row,
+            .learn-stats {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .easy-points,
+            .support-points {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .arch-integrations {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Control Panel (not printed) -->
+    <section class="slide slide-control" id="control-panel">
+        <div class="slide-content">
+            <div class="control-panel">
+                <h1>Frontier Gaming Systems</h1>
+                <p class="subtitle">Select which slides to include in your PDF export</p>
+
+                <div class="slide-checklist">
+                    <div class="checklist-header">
+                        <h3>Slides to Include</h3>
+                        <div class="checklist-actions">
+                            <button onclick="selectAll()">Select All</button>
+                            <button onclick="deselectAll()">Deselect All</button>
+                        </div>
+                    </div>
+                    <div class="checklist-items" id="checklist-items">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="download-section">
+                    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+                    <p class="download-hint">Opens print dialog - select "Save as PDF" as destination</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 1: Title -->
+    <section class="slide slide-title" data-slide="1" data-title="Title Slide">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(1, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h1 class="logo-text">FRONTIER GAMING SYSTEMS</h1>
+            <p class="tagline">Helping Charitable Bingo Halls Raise More Money</p>
+            <p class="subtitle">Take credit cards. Sell online. Know exactly what happened tonight.</p>
+        </div>
+        <div class="slide-number">1 / 17</div>
+    </section>
+
+    <!-- Slide 2: Mission -->
+    <section class="slide slide-mission" data-slide="2" data-title="Your Mission Matters">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(2, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content mission-content">
+            <h2>You're not in the software business.<br>You're in the <em>helping people</em> business.</h2>
+            <p>Whether you're raising money for your church, your lodge, your veterans, or your community — your bingo nights exist to fund your mission.</p>
+            <p>But too often, outdated systems and manual processes get in the way.</p>
+            <p class="highlight-question">What if there was a simpler way?</p>
+        </div>
+        <div class="slide-number">2 / 17</div>
+    </section>
+
+    <!-- Slide 3: Pain Points -->
+    <section class="slide slide-pain" data-slide="3" data-title="Common Pain Points">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(3, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>We've Heard These Stories Before</h2>
+            <div class="quotes-container">
+                <div class="quote">"We're still cash-only. Players keep asking for credit cards."</div>
+                <div class="quote">"I'm using five different programs that don't talk to each other."</div>
+                <div class="quote">"End-of-night reconciliation takes forever."</div>
+                <div class="quote">"We have no idea which packages actually sell well."</div>
+                <div class="quote">"The state requires reports I spend hours putting together."</div>
+            </div>
+            <p class="pain-footer">Sound familiar? You're not alone.</p>
+        </div>
+        <div class="slide-number">3 / 17</div>
+    </section>
+
+    <!-- Slide 4: Easy Intro -->
+    <section class="slide slide-easy" data-slide="4" data-title="There's an Easier Way">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(4, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>There's an Easier Way</h2>
+            <p class="big-message">Frontier is one simple system that handles everything — so you can focus on your mission, not your software.</p>
+            <div class="easy-points">
+                <div class="easy-point">
+                    <h4>Easy to Learn</h4>
+                    <p>Volunteers get comfortable in their first session</p>
+                </div>
+                <div class="easy-point">
+                    <h4>Easy to Use</h4>
+                    <p>Clean, simple screens that just make sense</p>
+                </div>
+                <div class="easy-point">
+                    <h4>Easy to Get Help</h4>
+                    <p>Real people answer the phone when you call</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">4 / 17</div>
+    </section>
+
+    <!-- Slide 5: Results -->
+    <section class="slide slide-results" data-slide="5" data-title="Results & Statistics">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(5, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <p class="big-stat">$20M+</p>
+            <p class="big-stat-label">Additional Annual Revenue Generated for Our Customers</p>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <p class="number">+18%</p>
+                    <p class="label">Revenue with Credit Cards</p>
+                </div>
+                <div class="stat-box">
+                    <p class="number">+39%</p>
+                    <p class="label">Revenue with Cards + Online Sales</p>
+                </div>
+            </div>
+            <p class="results-footer">More money raised. More impact for your cause.</p>
+        </div>
+        <div class="slide-number">5 / 17</div>
+    </section>
+
+    <!-- Slide 6: One System -->
+    <section class="slide slide-onesystem" data-slide="6" data-title="One System Does It All">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(6, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>One System That Does It All</h2>
+            <h3 class="subhead">Stop paying for six different tools</h3>
+            <div class="comparison-table">
+                <div class="comparison-col old">
+                    <h4>The Old Way</h4>
+                    <ul>
+                        <li>Separate payment processor</li>
+                        <li>Separate CRM system</li>
+                        <li>Separate email marketing</li>
+                        <li>Separate texting service</li>
+                        <li>Separate accounting entry</li>
+                        <li>Separate operations tools</li>
+                    </ul>
+                </div>
+                <div class="comparison-col new">
+                    <h4>The Frontier Way</h4>
+                    <ul>
+                        <li>Payments built-in</li>
+                        <li>CRM built-in</li>
+                        <li>Email built-in</li>
+                        <li>SMS built-in</li>
+                        <li>Accounting integrated</li>
+                        <li>Operations built-in</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="onesystem-footer">One platform. One login. One bill.</p>
+        </div>
+        <div class="slide-number">6 / 17</div>
+    </section>
+
+    <!-- Slide 7: Easy to Learn -->
+    <section class="slide slide-easylearn" data-slide="7" data-title="Volunteers Will Use It">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(7, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>Your Volunteers Will Actually Use It</h2>
+            <p class="big-message">We designed Frontier for real people — not IT departments. The interface is clean, the workflow is logical, and help is always a click away.</p>
+            <div class="learn-stats">
+                <div class="learn-stat">
+                    <p class="number">1</p>
+                    <p class="unit">session</p>
+                    <p class="label">For most volunteers to feel comfortable</p>
+                </div>
+                <div class="learn-stat">
+                    <p class="number">0</p>
+                    <p class="unit">IT staff</p>
+                    <p class="label">Required to run the system</p>
+                </div>
+                <div class="learn-stat">
+                    <p class="number">100%</p>
+                    <p class="unit">support</p>
+                    <p class="label">From real humans who answer the phone</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">7 / 17</div>
+    </section>
+
+    <!-- Slide 8: Credit Cards -->
+    <section class="slide slide-cards" data-slide="8" data-title="Credit Card Acceptance">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(8, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>Let's Talk About Credit Cards</h2>
+            <h3 class="subhead">Your players want to pay with cards. Let them.</h3>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h4>Players Spend More</h4>
+                    <p>When they're not limited to cash in their wallet, average transaction size goes up.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Younger Players Expect It</h4>
+                    <p>It's how they pay for everything else. Meet them where they are.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Less Cash to Handle</h4>
+                    <p>Safer for your volunteers. Less counting at the end of the night.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Competitive Rates</h4>
+                    <p>We work hard to keep processing costs low for charitable organizations.</p>
+                </div>
+            </div>
+            <p class="cards-footer">Halls that accept credit cards see <span class="highlight">+18% higher revenue</span> on average.</p>
+        </div>
+        <div class="slide-number">8 / 17</div>
+    </section>
+
+    <!-- Slide 9: Online Sales -->
+    <section class="slide slide-online" data-slide="9" data-title="Online Sales">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(9, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>Sell Packages Before Doors Open</h2>
+            <h3 class="subhead">Online sales are a game-changer</h3>
+            <div class="scenario-cards">
+                <div class="scenario">
+                    <strong>Picture this:</strong> A loyal player can't make it tonight — but they buy a package online for next week before they forget.
+                </div>
+                <div class="scenario">
+                    A new player sees your Facebook post, clicks through, and buys their first package right from their phone.
+                </div>
+                <div class="scenario">
+                    It's 10 AM and you already know tonight is going to be a good crowd.
+                </div>
+            </div>
+            <div class="online-footer">
+                <p>Online + in-person together =</p>
+                <p class="big">+39% revenue increase</p>
+            </div>
+        </div>
+        <div class="slide-number">9 / 17</div>
+    </section>
+
+    <!-- Slide 10: End of Night -->
+    <section class="slide slide-endofnight" data-slide="10" data-title="End of Night Reporting">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(10, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>Know Exactly What Happened Tonight</h2>
+            <h3 class="subhead">No more mystery. No more manual counting.</h3>
+            <div class="checklist">
+                <div class="check-item">
+                    <span class="check">>checkmark<#10003;</span>
+                    <span>How many players came</span>
+                </div>
+                <div class="check-item">
+                    <span class="check">>checkmark<#10003;</span>
+                    <span>What packages sold (and which didn't)</span>
+                </div>
+                <div class="check-item">
+                    <span class="check">>checkmark<#10003;</span>
+                    <span>Total revenue collected</span>
+                </div>
+                <div class="check-item">
+                    <span class="check">>checkmark<#10003;</span>
+                    <span>Payouts distributed</span>
+                </div>
+                <div class="check-item">
+                    <span class="check">>checkmark<#10003;</span>
+                    <span>Every transaction accounted for</span>
+                </div>
+                <div class="check-item">
+                    <span class="check">>checkmark<#10003;</span>
+                    <span>Cash drawer reconciliation</span>
+                </div>
+            </div>
+            <p class="endofnight-footer">Close out in minutes, not hours.</p>
+        </div>
+        <div class="slide-number">10 / 17</div>
+    </section>
+
+    <!-- Slide 11: No Tech Required -->
+    <section class="slide slide-notech" data-slide="11" data-title="No Tech Expertise Required">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(11, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>No Tech Expertise Required</h2>
+            <p class="big-message">You don't need to hire an IT person or buy expensive equipment. Frontier works on the devices you already have.</p>
+            <div class="notech-grid">
+                <div class="notech-item">
+                    <h4>Use Your Existing Devices</h4>
+                    <p>Works on tablets, laptops, and phones you already own. No special hardware needed.</p>
+                </div>
+                <div class="notech-item">
+                    <h4>We Handle the Setup</h4>
+                    <p>Our team gets you up and running. You don't have to figure it out alone.</p>
+                </div>
+                <div class="notech-item">
+                    <h4>Updates Happen Automatically</h4>
+                    <p>No software to install or maintain. Improvements just appear.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">11 / 17</div>
+    </section>
+
+    <!-- Slide 12: Compliance -->
+    <section class="slide slide-compliance" data-slide="12" data-title="Compliance Made Easy">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(12, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>Compliance Without the Headache</h2>
+            <h3 class="subhead">The reports regulators need, ready when you need them</h3>
+            <div class="compliance-features">
+                <div class="compliance-item">
+                    <h4>Attendance Tracking</h4>
+                    <p>Automatic</p>
+                </div>
+                <div class="compliance-item">
+                    <h4>Payout Records</h4>
+                    <p>Captured as they happen</p>
+                </div>
+                <div class="compliance-item">
+                    <h4>Audit Trails</h4>
+                    <p>Complete and accurate</p>
+                </div>
+                <div class="compliance-item">
+                    <h4>State Reports</h4>
+                    <p>Generated with a few clicks</p>
+                </div>
+            </div>
+            <p class="compliance-footer">Spend less time on paperwork. Spend more time on your mission.</p>
+        </div>
+        <div class="slide-number">12 / 17</div>
+    </section>
+
+    <!-- Slide 13: How It Works -->
+    <section class="slide slide-howitworks" data-slide="13" data-title="How It Works">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(13, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>How It Works</h2>
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="number">1</div>
+                    <h4>Admin Portal</h4>
+                    <p>Set up your packages, pricing, and schedules</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">2</div>
+                    <h4>Online & In-Person Sales</h4>
+                    <p>Players buy however they prefer</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">3</div>
+                    <h4>Floor Operations</h4>
+                    <p>Run your session smoothly with real-time data</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="number">4</div>
+                    <h4>End-of-Night Reporting</h4>
+                    <p>Know exactly what happened with one click</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">13 / 17</div>
+    </section>
+
+    <!-- Slide 14: Architecture -->
+    <section class="slide slide-architecture" data-slide="14" data-title="Platform Architecture">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(14, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>The Frontier Platform</h2>
+            <h3 class="subhead">Everything works together, out of the box</h3>
+            <div class="architecture-diagram">
+                <div class="arch-layer">
+                    <div class="arch-layer-label">Your Players</div>
+                    <div class="arch-row">
+                        <div class="arch-box">
+                            <h4>Online Store</h4>
+                            <p>Players buy packages from any device, anytime</p>
+                        </div>
+                        <div class="arch-box">
+                            <h4>In-Person POS</h4>
+                            <p>Fast checkout at the door with card or cash</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="arch-connector">|</div>
+                <div class="arch-layer">
+                    <div class="arch-core">
+                        <h4>Frontier Core Platform</h4>
+                        <p>Unified data, real-time sync, automatic reporting</p>
+                    </div>
+                </div>
+                <div class="arch-connector">|</div>
+                <div class="arch-layer">
+                    <div class="arch-layer-label">Your Operations</div>
+                    <div class="arch-row">
+                        <div class="arch-box">
+                            <h4>Admin Portal</h4>
+                            <p>Configure packages, pricing, schedules</p>
+                        </div>
+                        <div class="arch-box">
+                            <h4>Floor Ops</h4>
+                            <p>Runner tracking, inventory, session control</p>
+                        </div>
+                        <div class="arch-box">
+                            <h4>Reporting</h4>
+                            <p>End-of-night, compliance, analytics</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="arch-integrations">
+                    <div class="arch-integration">Payment Processing</div>
+                    <div class="arch-integration">Email + SMS</div>
+                    <div class="arch-integration">Accounting</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">14 / 17</div>
+    </section>
+
+    <!-- Slide 15: Support -->
+    <section class="slide slide-support" data-slide="15" data-title="Support & Partnership">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(15, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>We're Here When You Need Us</h2>
+            <p class="big-message">You're not buying software and being left on your own. We're partners in your success.</p>
+            <div class="support-points">
+                <div class="support-point">
+                    <h4>Real People</h4>
+                    <p>When you call, a human answers. Not a robot, not a phone tree.</p>
+                </div>
+                <div class="support-point">
+                    <h4>We Understand Bingo</h4>
+                    <p>Our team knows charitable gaming inside and out. We speak your language.</p>
+                </div>
+                <div class="support-point">
+                    <h4>We Want You to Succeed</h4>
+                    <p>Your success is our success. We're invested in helping you raise more for your cause.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">15 / 17</div>
+    </section>
+
+    <!-- Slide 16: CTA -->
+    <section class="slide slide-cta" data-slide="16" data-title="Contact & Next Steps">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(16, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h2>Ready to See More?</h2>
+            <h3 class="subhead">Let's have a conversation</h3>
+            <p class="cta-message">We'd love to show you how Frontier works and answer your questions.<br><br><strong>No pressure. No complicated sales pitch. Just an honest conversation about whether we're a good fit for your hall.</strong></p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="label">Phone</div>
+                    <p><a href="tel:8148224646">(814) 822-4646</a></p>
+                </div>
+                <div class="contact-item">
+                    <div class="label">Email</div>
+                    <p><a href="mailto:info@frontiergamingsystems.com">info@frontiergamingsystems.com</a></p>
+                </div>
+                <div class="contact-item">
+                    <div class="label">Website</div>
+                    <p><a href="https://frontiergamingsystems.com">frontiergamingsystems.com</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">16 / 17</div>
+    </section>
+
+    <!-- Slide 17: Closing -->
+    <section class="slide slide-closing" data-slide="17" data-title="Closing">
+        <div class="slide-toggle">
+            <input type="checkbox" checked onchange="toggleSlide(17, this.checked)">
+            <span>Include</span>
+        </div>
+        <div class="slide-content">
+            <h1 class="logo-text">FRONTIER GAMING SYSTEMS</h1>
+            <p class="tagline">Simple Software. More Money Raised.</p>
+            <p class="final-message">Let's help your bingo nights do more for your cause.</p>
+            <a href="mailto:info@frontiergamingsystems.com" class="cta-button">Schedule a Demo</a>
+        </div>
+        <div class="slide-number">17 / 17</div>
+    </section>
+
+    <div class="nav-hint">Scroll to navigate slides</div>
+
+    <script>
+        // Slide data
+        const slides = [
+            { id: 1, title: "Title Slide", included: true },
+            { id: 2, title: "Your Mission Matters", included: true },
+            { id: 3, title: "Common Pain Points", included: true },
+            { id: 4, title: "There's an Easier Way", included: true },
+            { id: 5, title: "Results & Statistics", included: true },
+            { id: 6, title: "One System Does It All", included: true },
+            { id: 7, title: "Volunteers Will Use It", included: true },
+            { id: 8, title: "Credit Card Acceptance", included: true },
+            { id: 9, title: "Online Sales", included: true },
+            { id: 10, title: "End of Night Reporting", included: true },
+            { id: 11, title: "No Tech Expertise Required", included: true },
+            { id: 12, title: "Compliance Made Easy", included: true },
+            { id: 13, title: "How It Works", included: true },
+            { id: 14, title: "Platform Architecture", included: true },
+            { id: 15, title: "Support & Partnership", included: true },
+            { id: 16, title: "Contact & Next Steps", included: true },
+            { id: 17, title: "Closing", included: true }
+        ];
+
+        // Initialize checklist
+        function initChecklist() {
+            const container = document.getElementById('checklist-items');
+            container.innerHTML = '';
+
+            slides.forEach(slide => {
+                const item = document.createElement('div');
+                item.className = 'checklist-item' + (slide.included ? '' : ' unchecked');
+                item.id = `checklist-item-${slide.id}`;
+                item.innerHTML = `
+                    <input type="checkbox" id="check-${slide.id}" ${slide.included ? 'checked' : ''} onchange="toggleSlide(${slide.id}, this.checked)">
+                    <label for="check-${slide.id}">${slide.id}. ${slide.title}</label>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Toggle slide inclusion
+        function toggleSlide(slideId, included) {
+            // Update data
+            const slide = slides.find(s => s.id === slideId);
+            if (slide) slide.included = included;
+
+            // Update slide element
+            const slideEl = document.querySelector(`[data-slide="${slideId}"]`);
+            if (slideEl) {
+                slideEl.classList.toggle('excluded', !included);
+                const checkbox = slideEl.querySelector('.slide-toggle input');
+                if (checkbox) checkbox.checked = included;
+            }
+
+            // Update checklist
+            const checklistItem = document.getElementById(`checklist-item-${slideId}`);
+            if (checklistItem) {
+                checklistItem.classList.toggle('unchecked', !included);
+                const checkbox = checklistItem.querySelector('input');
+                if (checkbox) checkbox.checked = included;
+            }
+        }
+
+        // Select all slides
+        function selectAll() {
+            slides.forEach(slide => toggleSlide(slide.id, true));
+        }
+
+        // Deselect all slides
+        function deselectAll() {
+            slides.forEach(slide => toggleSlide(slide.id, false));
+        }
+
+        // Download PDF
+        function downloadPDF() {
+            window.print();
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initChecklist);
+    </script>
+
+</body>
+</html>

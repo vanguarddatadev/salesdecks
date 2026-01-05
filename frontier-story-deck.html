@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier Gaming Systems - Story-Driven Narrative Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 60px;
+            position: relative;
+            page-break-after: always;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+        }
+
+        .slide.hidden {
+            display: none;
+        }
+
+        /* Slide Toggle Buttons */
+        .slide-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 200px;
+        }
+
+        .slide-toggle {
+            width: 32px;
+            height: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(26, 26, 46, 0.8);
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .slide-toggle:hover {
+            background: rgba(74, 144, 217, 0.3);
+            border-color: #4a90d9;
+            transform: scale(1.1);
+        }
+
+        .slide-toggle.active {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            color: #0a0a0f;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #1a1a2e 100%);
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .title-slide .subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #8ec5fc;
+            margin-bottom: 60px;
+            line-height: 1.4;
+        }
+
+        .title-slide .tagline {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .control-panel h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #2ecc71;
+        }
+
+        .checklist {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .checklist h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #8ec5fc;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(15, 52, 96, 0.4);
+            border-radius: 8px;
+            border-left: 4px solid #2ecc71;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            margin-top: 2px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .instructions {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(74, 144, 217, 0.1);
+            border-radius: 12px;
+            border: 2px solid rgba(142, 197, 252, 0.3);
+        }
+
+        .instructions h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #8ec5fc;
+        }
+
+        .instructions ul {
+            list-style-position: inside;
+            font-size: 1.1rem;
+            line-height: 2;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        /* Persona Slide */
+        .persona-slide {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .persona-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            align-items: center;
+        }
+
+        .persona-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(46, 204, 113, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .persona-placeholder {
+            font-size: 8rem;
+            color: rgba(46, 204, 113, 0.3);
+            font-weight: 300;
+        }
+
+        .persona-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #2ecc71;
+        }
+
+        .persona-content h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            color: #8ec5fc;
+        }
+
+        .persona-content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .persona-details {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(15, 52, 96, 0.3);
+            border-radius: 12px;
+            border-left: 5px solid #2ecc71;
+        }
+
+        .persona-details p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Story Slide */
+        .story-slide h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #e74c3c 0%, #f1c40f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-slide.after h1 {
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .story-moment {
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 25px;
+            border-left: 5px solid #e74c3c;
+            transition: all 0.3s ease;
+        }
+
+        .story-slide.after .story-moment {
+            border-left-color: #2ecc71;
+        }
+
+        .story-moment:hover {
+            transform: translateX(10px);
+            background: rgba(26, 26, 46, 0.8);
+        }
+
+        .story-moment h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #8ec5fc;
+        }
+
+        .story-moment p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Breaking Point Slide */
+        .breaking-point-slide {
+            background: linear-gradient(135deg, #16213e 0%, #0a0a0f 100%);
+            text-align: center;
+        }
+
+        .breaking-point-slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+            color: #e74c3c;
+        }
+
+        .breaking-point-content {
+            max-width: 1000px;
+            background: rgba(231, 76, 60, 0.1);
+            border: 3px solid rgba(231, 76, 60, 0.3);
+            border-radius: 20px;
+            padding: 60px;
+        }
+
+        .quote-large {
+            font-size: 2.5rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .quote-large:before {
+            content: '"';
+            font-size: 6rem;
+            color: rgba(231, 76, 60, 0.3);
+            position: absolute;
+            top: -40px;
+            left: -20px;
+        }
+
+        .quote-attribution {
+            font-size: 1.5rem;
+            color: #8ec5fc;
+            font-weight: 600;
+        }
+
+        /* Vision Slide */
+        .vision-slide {
+            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+            text-align: center;
+        }
+
+        .vision-slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .vision-card {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .vision-card:hover {
+            transform: translateY(-10px);
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .vision-card .icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            color: #2ecc71;
+        }
+
+        .vision-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #8ec5fc;
+        }
+
+        .vision-card p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Transformation Slide */
+        .transformation-slide {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+        }
+
+        .transformation-slide h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #2ecc71;
+        }
+
+        .transformation-content {
+            max-width: 1200px;
+            background: rgba(26, 26, 46, 0.6);
+            border: 3px solid rgba(46, 204, 113, 0.4);
+            border-radius: 20px;
+            padding: 60px;
+        }
+
+        .transformation-moment {
+            margin-bottom: 35px;
+        }
+
+        .transformation-moment h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #8ec5fc;
+            display: flex;
+            align-items: center;
+        }
+
+        .transformation-moment h3 .time {
+            font-size: 1.4rem;
+            color: #2ecc71;
+            margin-right: 20px;
+            font-weight: 800;
+        }
+
+        .transformation-moment p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            padding-left: 100px;
+        }
+
+        /* Testimonial Slide */
+        .testimonial-slide {
+            background: linear-gradient(135deg, #0a0a0f 0%, #16213e 100%);
+            text-align: center;
+        }
+
+        .testimonial-slide h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 70px;
+            color: #2ecc71;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+        }
+
+        .testimonial-card {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(142, 197, 252, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: left;
+            position: relative;
+        }
+
+        .testimonial-card:before {
+            content: '"';
+            font-size: 8rem;
+            color: rgba(46, 204, 113, 0.2);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #8ec5fc;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-role {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Freedom Slide */
+        .freedom-slide {
+            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+        }
+
+        .freedom-content {
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .freedom-slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .freedom-slide .subtitle {
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: #8ec5fc;
+            margin-bottom: 60px;
+        }
+
+        .freedom-story {
+            background: rgba(26, 26, 46, 0.6);
+            border: 3px solid rgba(46, 204, 113, 0.4);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: left;
+        }
+
+        .freedom-story p {
+            font-size: 1.4rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+        }
+
+        .highlight-stat {
+            background: rgba(46, 204, 113, 0.15);
+            border-left: 5px solid #2ecc71;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+
+        .highlight-stat h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+
+        .highlight-stat p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        /* Pride Slide */
+        .pride-slide {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            text-align: center;
+        }
+
+        .pride-slide h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            color: #2ecc71;
+        }
+
+        .pride-content {
+            max-width: 1000px;
+        }
+
+        .pride-quote {
+            font-size: 2rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 16px;
+            border: 2px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .pride-benefits {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            text-align: left;
+        }
+
+        .pride-benefit {
+            background: rgba(26, 26, 46, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #2ecc71;
+        }
+
+        .pride-benefit h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #8ec5fc;
+            margin-bottom: 15px;
+        }
+
+        .pride-benefit p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Revenue Impact Slide */
+        .revenue-slide {
+            background: linear-gradient(135deg, #0a0a0f 0%, #16213e 100%);
+        }
+
+        .revenue-slide h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #f1c40f;
+        }
+
+        .revenue-slide .subtitle {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #8ec5fc;
+        }
+
+        .revenue-story {
+            max-width: 1200px;
+            background: rgba(26, 26, 46, 0.6);
+            border: 3px solid rgba(241, 196, 15, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+        }
+
+        .revenue-chain {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+
+        .revenue-link {
+            flex: 1;
+            text-align: center;
+            padding: 30px;
+            background: rgba(15, 52, 96, 0.4);
+            border-radius: 12px;
+            border: 2px solid rgba(142, 197, 252, 0.3);
+        }
+
+        .revenue-link h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2ecc71;
+            margin-bottom: 15px;
+        }
+
+        .revenue-link p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .revenue-arrow {
+            font-size: 3rem;
+            color: #f1c40f;
+            margin: 0 20px;
+        }
+
+        .mission-impact {
+            background: rgba(241, 196, 15, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            border: 2px solid rgba(241, 196, 15, 0.4);
+        }
+
+        .mission-impact h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f1c40f;
+            margin-bottom: 20px;
+        }
+
+        .mission-impact p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Support Slide */
+        .support-slide {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+        }
+
+        .support-content {
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .support-slide h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            color: #2ecc71;
+        }
+
+        .support-slide .intro {
+            font-size: 1.8rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 60px;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            text-align: left;
+        }
+
+        .support-card {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .support-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #8ec5fc;
+            margin-bottom: 20px;
+        }
+
+        .support-card p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Social Proof Slide */
+        .social-proof-slide {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+        }
+
+        .social-proof-slide h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+            text-align: center;
+            color: #2ecc71;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+        }
+
+        .hall-story {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(142, 197, 252, 0.3);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.3s ease;
+        }
+
+        .hall-story:hover {
+            transform: translateY(-10px);
+            border-color: #2ecc71;
+        }
+
+        .hall-story h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #8ec5fc;
+            margin-bottom: 15px;
+        }
+
+        .hall-story .location {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 20px;
+        }
+
+        .hall-story p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+            font-style: italic;
+        }
+
+        /* Journey CTA Slide */
+        .journey-slide {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            text-align: center;
+        }
+
+        .journey-slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .journey-content {
+            max-width: 1000px;
+        }
+
+        .journey-text {
+            font-size: 1.8rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 60px;
+        }
+
+        .journey-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .journey-step {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 16px;
+            padding: 35px 25px;
+        }
+
+        .journey-step .step-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+
+        .journey-step h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #8ec5fc;
+            margin-bottom: 15px;
+        }
+
+        .journey-step p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Next Chapter CTA */
+        .chapter-slide {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            text-align: center;
+        }
+
+        .chapter-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .chapter-content {
+            max-width: 900px;
+        }
+
+        .chapter-text {
+            font-size: 2rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 60px;
+        }
+
+        .cta-box {
+            background: rgba(46, 204, 113, 0.15);
+            border: 3px solid #2ecc71;
+            border-radius: 20px;
+            padding: 50px;
+        }
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2ecc71;
+            margin-bottom: 30px;
+        }
+
+        .cta-box p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 15px;
+        }
+
+        .cta-box .contact-emphasis {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #8ec5fc;
+            margin-top: 30px;
+        }
+
+        /* Closing Slide */
+        .closing-slide {
+            background: linear-gradient(135deg, #0a0a0f 0%, #0f3460 100%);
+            text-align: center;
+        }
+
+        .closing-slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .closing-content {
+            max-width: 1000px;
+        }
+
+        .closing-quote {
+            font-size: 2.5rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 60px;
+        }
+
+        .closing-footer {
+            font-size: 1.5rem;
+            color: #8ec5fc;
+            font-weight: 600;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .slide {
+                page-break-after: always;
+                min-height: 100vh;
+                display: flex !important;
+            }
+
+            .slide.hidden {
+                display: flex !important;
+            }
+
+            .slide-controls {
+                display: none !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+
+        @page {
+            size: letter landscape;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .persona-container,
+            .revenue-chain {
+                grid-template-columns: 1fr;
+            }
+
+            .vision-grid,
+            .social-proof-grid,
+            .journey-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-grid,
+            .pride-benefits,
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title-slide h1 {
+                font-size: 3rem;
+            }
+
+            .slide {
+                padding: 60px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide Controls -->
+    <div class="slide-controls" id="slideControls"></div>
+
+    <!-- Slide 1: Control Panel -->
+    <section class="slide control-panel" data-slide="1">
+        <h1>Presentation Control Panel</h1>
+        <div class="checklist">
+            <h2>Pre-Presentation Checklist</h2>
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Reviewed all slides and customized for this specific prospect</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">Tested slide toggles and verified all slides display correctly</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Prepared personal stories and examples from similar halls</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">Confirmed prospect's pain points align with Sarah's story</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">Ready to ask questions and listen before presenting</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check6">
+                <label for="check6">Prepared to adapt presentation flow based on their responses</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check7">
+                <label for="check7">Have follow-up materials and demo ready if requested</label>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>How to Use This Deck</h3>
+            <ul>
+                <li><strong>Storytelling Approach:</strong> This deck is designed for relationship-focused selling. Build rapport first, then guide them through the narrative.</li>
+                <li><strong>Slide Navigation:</strong> Use the numbered buttons (top left) to toggle slides on/off. Only show slides relevant to this prospect.</li>
+                <li><strong>Customize the Story:</strong> Adapt Sarah's story to match your prospect's actual situation and challenges.</li>
+                <li><strong>Listen First:</strong> Ask about their current experience before diving into the presentation.</li>
+                <li><strong>Print Option:</strong> Use Ctrl+P (Cmd+P) to print or save as PDF. All slides will be included automatically.</li>
+                <li><strong>Pace Yourself:</strong> Let the story breathe. Pause for reactions and questions. This is a conversation, not a monologue.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slide 2: Title Slide -->
+    <section class="slide title-slide" data-slide="2">
+        <h1>Imagine Your Best<br>Bingo Night Ever</h1>
+        <p class="subtitle">Where everything just works, your players are happy,<br>and you leave on time</p>
+        <p class="tagline">A story about transformation, powered by Frontier Gaming Systems</p>
+    </section>
+
+    <!-- Slide 3: Meet Sarah -->
+    <section class="slide persona-slide" data-slide="3">
+        <div class="persona-container">
+            <div class="persona-image">
+                <div class="persona-placeholder">S</div>
+            </div>
+            <div class="persona-content">
+                <h1>Meet Sarah</h1>
+                <h2>Bingo Hall Manager, 7 Years</h2>
+                <p>Sarah manages a mid-sized charitable bingo hall. She started as a volunteer, worked her way up, and genuinely loves her community.</p>
+                <p>But lately, bingo nights have become a source of stress instead of joy.</p>
+                <div class="persona-details">
+                    <p><strong>Her reality:</strong> 3-4 bingo nights per week</p>
+                    <p><strong>Her team:</strong> Mostly volunteers, high turnover</p>
+                    <p><strong>Her challenge:</strong> Aging equipment, manual processes, player complaints</p>
+                    <p><strong>Her wish:</strong> To remember why she fell in love with bingo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Before - Typical Tuesday Night -->
+    <section class="slide story-slide" data-slide="4">
+        <h1>A Typical Tuesday Night (Before)</h1>
+        <div class="story-content">
+            <div class="story-moment">
+                <h3>5:00 PM - Setup Nightmare</h3>
+                <p>Sarah arrives an hour early. The aging POS system takes 15 minutes to boot up. She's crossing her fingers it won't freeze tonight. Two of the flashboards aren't working again.</p>
+            </div>
+            <div class="story-moment">
+                <h3>6:30 PM - Doors Open, Chaos Begins</h3>
+                <p>The line at the seller station is already backing up. The printer jams. Players are frustrated because the card they wanted was sold to someone else—but there's no way to know who has what until after the game.</p>
+            </div>
+            <div class="story-moment">
+                <h3>8:45 PM - Validation Drama</h3>
+                <p>"BINGO!" someone shouts. Sarah rushes over. The flashboard isn't showing the right numbers. Is it a good win? She has to manually verify everything while 100 players wait impatiently.</p>
+            </div>
+            <div class="story-moment">
+                <h3>11:00 PM - Still Closing Out</h3>
+                <p>The last player left an hour ago. Sarah is manually reconciling cash, trying to make the numbers match. Her daughter's bedtime was two hours ago. She's missed it again.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: The Breaking Point -->
+    <section class="slide breaking-point-slide" data-slide="5">
+        <h1>The Breaking Point</h1>
+        <div class="breaking-point-content">
+            <p class="quote-large">I was sitting in my car after closing on a Friday night, crying, wondering if I should just quit. This wasn't what I signed up for. I wanted to help my community, not drown in paperwork and technical problems.</p>
+            <p class="quote-attribution">— Sarah's journal entry, six months ago</p>
+        </div>
+    </section>
+
+    <!-- Slide 6: What If It Could Be Different? -->
+    <section class="slide vision-slide" data-slide="6">
+        <h1>What If It Could Be Different?</h1>
+        <div class="vision-grid">
+            <div class="vision-card">
+                <div class="icon">✓</div>
+                <h3>Everything Just Works</h3>
+                <p>No more frozen screens, jammed printers, or technical emergencies. Just reliable, modern technology that does what it's supposed to.</p>
+            </div>
+            <div class="vision-card">
+                <div class="icon">✓</div>
+                <h3>Players Are Happy</h3>
+                <p>They can see every number clearly. They trust the system. They're having fun instead of complaining about wait times or unclear displays.</p>
+            </div>
+            <div class="vision-card">
+                <div class="icon">✓</div>
+                <h3>You Leave On Time</h3>
+                <p>Closing takes 10 minutes, not two hours. The numbers always balance. You're home for dinner with your family.</p>
+            </div>
+            <div class="vision-card">
+                <div class="icon">✓</div>
+                <h3>Training Is Easy</h3>
+                <p>New volunteers learn the system in minutes. No more spending hours teaching complex workarounds for broken equipment.</p>
+            </div>
+            <div class="vision-card">
+                <div class="icon">✓</div>
+                <h3>Real-Time Visibility</h3>
+                <p>You know exactly what's happening at every station. No more guessing. No more surprises at the end of the night.</p>
+            </div>
+            <div class="vision-card">
+                <div class="icon">✓</div>
+                <h3>Professional Pride</h3>
+                <p>Your hall runs like a modern business. You feel proud showing it off instead of making excuses for outdated equipment.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: After - Tuesday Night Transformed -->
+    <section class="slide story-slide after" data-slide="7">
+        <h1>A Typical Tuesday Night (After)</h1>
+        <div class="story-content">
+            <div class="story-moment">
+                <h3>5:15 PM - Smooth Setup</h3>
+                <p>Sarah arrives 45 minutes before doors. The Frontier system is already running—it powers on automatically. All displays are in sync. Everything's ready. She actually has time for a coffee.</p>
+            </div>
+            <div class="story-moment">
+                <h3>6:30 PM - Efficient Entry</h3>
+                <p>Doors open. The line moves smoothly. The touchscreen POS is intuitive—new sellers pick it up in minutes. Players get exactly the cards they want. No confusion, no frustration.</p>
+            </div>
+            <div class="story-moment">
+                <h3>8:45 PM - Instant Verification</h3>
+                <p>"BINGO!" Sarah walks over calmly. The system has already validated the win automatically. The player's card number shows on the main display. Everyone can see it's legitimate. She pays out with confidence.</p>
+            </div>
+            <div class="story-moment">
+                <h3>10:10 PM - Heading Home</h3>
+                <p>The last player just left. Sarah taps "End of Day" on the tablet. The report generates instantly. Cash matches perfectly, as always. She's in her car by 10:15 PM. She'll make it home for bedtime tonight.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: The Moment Everything Changed -->
+    <section class="slide transformation-slide" data-slide="8">
+        <h1>The Moment Everything Changed</h1>
+        <div class="transformation-content">
+            <div class="transformation-moment">
+                <h3><span class="time">Night One</span> First Game with Frontier</h3>
+                <p>Sarah's hands were shaking as she started the first game. What if something went wrong? But then... nothing went wrong. The numbers appeared instantly on all displays. The verification worked perfectly. Players actually commented on how clear everything was.</p>
+            </div>
+            <div class="transformation-moment">
+                <h3><span class="time">Week One</span> New Confidence</h3>
+                <p>By the end of the first week, Sarah noticed something: she was smiling again during games. She wasn't anxious. She wasn't troubleshooting. She was actually enjoying interacting with players.</p>
+            </div>
+            <div class="transformation-moment">
+                <h3><span class="time">Month One</span> The Call</h3>
+                <p>A board member called to say they'd received multiple positive comments about "the new system." Players loved the clarity. They felt confident the games were fair. One regular said: "Finally feels like a professional operation."</p>
+            </div>
+            <div class="transformation-moment">
+                <h3><span class="time">Month Three</span> The Realization</h3>
+                <p>Sarah realized she hadn't thought about technical problems in weeks. The system just worked. Every night. No drama. No stress. She remembered why she loved this job.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: What Sarah's Players Say Now -->
+    <section class="slide testimonial-slide" data-slide="9">
+        <h1>What Sarah's Players Say Now</h1>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">I can actually see every number from the back row now. The old displays were impossible to read. This is so much better!</p>
+                <div class="testimonial-author">Margaret, 72</div>
+                <div class="testimonial-role">Regular player for 15 years</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">My wife was skeptical about the new system, but now she says it's the fairest bingo hall in town. You can see everything that's happening.</p>
+                <div class="testimonial-author">Robert, 68</div>
+                <div class="testimonial-role">Plays twice a week with his wife</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">I brought my daughter for her first bingo night, and she said 'Mom, this is actually kind of high-tech!' I was so proud of our hall.</p>
+                <div class="testimonial-author">Jennifer, 45</div>
+                <div class="testimonial-role">Second-generation player</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">The line moves so much faster now. I used to get here 30 minutes early just to get my cards. Now I arrive 5 minutes before and I'm fine.</p>
+                <div class="testimonial-author">Tom, 59</div>
+                <div class="testimonial-role">Tuesday and Thursday regular</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Friday Night Freedom -->
+    <section class="slide freedom-slide" data-slide="10">
+        <div class="freedom-content">
+            <h1>Friday Night Freedom</h1>
+            <p class="subtitle">The end of the night is now the best part</p>
+            <div class="freedom-story">
+                <p>Sarah's favorite moment now is Friday night closing. She used to dread it—the hours of manual reconciliation, the stress of making numbers match, the guilt of missing another family evening.</p>
+                <p>Last Friday, she pressed "End of Day" at 10:05 PM. The Frontier system generated the complete financial report in seconds. Every transaction was tracked. Every dollar accounted for. Cash matched perfectly, like it does every night.</p>
+                <p>She was in her car by 10:12 PM.</p>
+                <p>When she got home at 10:30, her kids were still up. They watched a movie together. Her daughter fell asleep on her shoulder. It was perfect.</p>
+                <div class="highlight-stat">
+                    <h3>10 Minutes</h3>
+                    <p>Average closing time with Frontier, down from 2+ hours</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: The Pride of a Modern Operation -->
+    <section class="slide pride-slide" data-slide="11">
+        <h1>The Pride of a Modern Operation</h1>
+        <div class="pride-content">
+            <div class="pride-quote">
+                "I used to make excuses when new people visited. Now I give them tours. I'm proud of how professional we look and operate."
+            </div>
+            <div class="pride-benefits">
+                <div class="pride-benefit">
+                    <h3>Confidence with Regulators</h3>
+                    <p>When the gaming commission inspector visits, Sarah no longer worries. She has complete audit trails, transparent reporting, and a system built for compliance.</p>
+                </div>
+                <div class="pride-benefit">
+                    <h3>Easier Volunteer Recruitment</h3>
+                    <p>New volunteers are excited to work with modern technology. Training takes 20 minutes instead of multiple sessions. Turnover has decreased significantly.</p>
+                </div>
+                <div class="pride-benefit">
+                    <h3>Board Confidence</h3>
+                    <p>Board meetings are easier now. Sarah presents clean, professional reports. Financial questions are answered immediately. The board trusts the data completely.</p>
+                </div>
+                <div class="pride-benefit">
+                    <h3>Community Reputation</h3>
+                    <p>Word spread in the community. Sarah's hall is now known as "the professional one." New players specifically seek them out because of their reputation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: More Money for What Matters -->
+    <section class="slide revenue-slide" data-slide="12">
+        <h1>More Money for What Matters</h1>
+        <p class="subtitle">Better operations mean stronger support for your mission</p>
+        <div class="revenue-story">
+            <div class="revenue-chain">
+                <div class="revenue-link">
+                    <h3>Happier Players</h3>
+                    <p>Modern system, clear displays, fast service</p>
+                </div>
+                <div class="revenue-arrow">→</div>
+                <div class="revenue-link">
+                    <h3>Higher Attendance</h3>
+                    <p>Players return more often, bring friends</p>
+                </div>
+                <div class="revenue-arrow">→</div>
+                <div class="revenue-link">
+                    <h3>Increased Revenue</h3>
+                    <p>More games played, better per-night average</p>
+                </div>
+            </div>
+            <div class="mission-impact">
+                <h3>Sarah's Impact Story</h3>
+                <p>In the first year with Frontier, Sarah's hall saw a 12% increase in average attendance. That translated to an additional $47,000 in proceeds for their charity partner—a youth sports organization.</p>
+                <p>That money bought new equipment for three teams, funded scholarships for kids who couldn't afford registration fees, and upgraded their aging facility.</p>
+                <p>Sarah received a thank-you card from a single mom whose son got to play soccer for the first time. That card is framed in her office.</p>
+                <p><strong>That's what modern bingo operations can do. That's what Frontier enables.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13: You're Not Alone -->
+    <section class="slide support-slide" data-slide="13">
+        <div class="support-content">
+            <h1>You're Not Alone</h1>
+            <p class="intro">Sarah was nervous about making such a big change. What if something went wrong? What if she couldn't figure out the new system? What if her team struggled?</p>
+            <div class="support-grid">
+                <div class="support-card">
+                    <h3>Implementation Support</h3>
+                    <p>A Frontier specialist worked alongside Sarah's team for the first week. They learned together. Questions were answered immediately. The training was hands-on and practical—no confusing manuals or technical jargon.</p>
+                </div>
+                <div class="support-card">
+                    <h3>Always Available</h3>
+                    <p>Sarah has a direct support number. Real people answer. They know bingo operations inside and out. One time she called 30 minutes before doors—they walked her through a simple fix in under 3 minutes.</p>
+                </div>
+                <div class="support-card">
+                    <h3>Proactive Partnership</h3>
+                    <p>Frontier doesn't wait for problems. They check in regularly. They provide software updates automatically. They share best practices from other successful halls. Sarah feels like she has a true partner.</p>
+                </div>
+                <div class="support-card">
+                    <h3>Community Connection</h3>
+                    <p>Sarah now knows other Frontier hall managers. They share ideas, solutions, and success stories. She's not isolated anymore—she's part of a community of professionals who understand her challenges.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 14: Other Halls Like Yours -->
+    <section class="slide social-proof-slide" data-slide="14">
+        <h1>Other Halls Like Yours</h1>
+        <div class="social-proof-grid">
+            <div class="hall-story">
+                <h3>Riverside Bingo</h3>
+                <div class="location">Small town, 150 seats</div>
+                <p>"We were running on 15-year-old equipment. Switching to Frontier felt risky, but it saved our operation. Players come back now, and our charity gets consistent funding again."</p>
+            </div>
+            <div class="hall-story">
+                <h3>Veterans Hall</h3>
+                <div class="location">Urban location, 300 seats</div>
+                <p>"The transparency Frontier provides changed everything. Players trust us. Regulators are impressed. Our volunteers actually enjoy working now instead of fighting with old technology."</p>
+            </div>
+            <div class="hall-story">
+                <h3>Community Center Bingo</h3>
+                <div class="location">Suburban, 200 seats</div>
+                <p>"I was scared to make the investment. Best decision we ever made. We've increased our charitable giving by 18% in one year because operations are so much more efficient."</p>
+            </div>
+            <div class="hall-story">
+                <h3>Church Bingo Nights</h3>
+                <div class="location">Mid-size parish, 175 seats</div>
+                <p>"Our older volunteers were worried about learning new technology. Turns out Frontier is easier than our old system. Now they're teaching younger volunteers how to run the games!"</p>
+            </div>
+            <div class="hall-story">
+                <h3>Firehouse Bingo</h3>
+                <div class="location">Small community, 100 seats</div>
+                <p>"We went from thinking about closing down to having our best year in a decade. Frontier gave us the tools to compete with modern entertainment options."</p>
+            </div>
+            <div class="hall-story">
+                <h3>Legion Hall</h3>
+                <div class="location">Rural area, 225 seats</div>
+                <p>"The end-of-night reconciliation alone was worth it. We used to fight over cash counts for an hour. Now it's done in 5 minutes, perfect every time."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 15: Your Story Starts Here -->
+    <section class="slide journey-slide" data-slide="15">
+        <h1>Your Story Starts Here</h1>
+        <div class="journey-content">
+            <p class="journey-text">Sarah's story doesn't have to be unique. It can be your story. The same transformation, the same freedom, the same pride in running a modern, professional operation.</p>
+            <div class="journey-steps">
+                <div class="journey-step">
+                    <div class="step-number">1</div>
+                    <h3>Let's Talk</h3>
+                    <p>Share your current situation. What's working? What's frustrating? What keeps you up at night? No sales pitch—just listening.</p>
+                </div>
+                <div class="journey-step">
+                    <div class="step-number">2</div>
+                    <h3>See It In Action</h3>
+                    <p>Visit a hall running Frontier, or we'll bring a demo to you. Touch the screens. Ask questions. Picture it in your operation.</p>
+                </div>
+                <div class="journey-step">
+                    <div class="step-number">3</div>
+                    <h3>Your Custom Plan</h3>
+                    <p>We'll design an implementation plan specific to your hall. Your schedule, your budget, your concerns addressed. No pressure, no surprises.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 16: Let's Write Your Next Chapter -->
+    <section class="slide chapter-slide" data-slide="16">
+        <h1>Let's Write Your Next Chapter</h1>
+        <div class="chapter-content">
+            <p class="chapter-text">You didn't get into bingo management to fight with broken equipment and spend hours on paperwork. You got into it to serve your community, support your cause, and bring people together.</p>
+            <div class="cta-box">
+                <h2>Imagine Your Best Bingo Night</h2>
+                <p>Where technology works seamlessly</p>
+                <p>Where players are happy and trust your operation</p>
+                <p>Where you leave on time, every time</p>
+                <p>Where you feel proud of what you've built</p>
+                <p class="contact-emphasis">That's not a fantasy. That's Frontier Gaming Systems.</p>
+                <p class="contact-emphasis">Let's start your story.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 17: Closing -->
+    <section class="slide closing-slide" data-slide="17">
+        <h1>Thank You</h1>
+        <div class="closing-content">
+            <p class="closing-quote">"The best decision we made wasn't just about buying new technology. It was about choosing a partner who understands our mission and helps us fulfill it better."</p>
+            <div class="closing-footer">
+                <p>Frontier Gaming Systems</p>
+                <p>Partners in Your Success</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Slide Toggle Functionality
+        const slides = document.querySelectorAll('.slide');
+        const controlsContainer = document.getElementById('slideControls');
+
+        // Create toggle buttons for all slides
+        slides.forEach((slide, index) => {
+            const slideNum = index + 1;
+            const button = document.createElement('button');
+            button.className = 'slide-toggle';
+            button.textContent = slideNum;
+            button.dataset.slide = slideNum;
+
+            // First slide is active by default
+            if (slideNum === 1) {
+                button.classList.add('active');
+            }
+
+            button.addEventListener('click', () => {
+                const targetSlide = document.querySelector(`.slide[data-slide="${slideNum}"]`);
+
+                if (targetSlide.classList.contains('hidden')) {
+                    // Show the slide
+                    targetSlide.classList.remove('hidden');
+                    button.classList.add('active');
+                } else {
+                    // Hide the slide
+                    targetSlide.classList.add('hidden');
+                    button.classList.remove('active');
+                }
+            });
+
+            controlsContainer.appendChild(button);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const visibleSlides = Array.from(slides).filter(slide => !slide.classList.contains('hidden'));
+            const currentIndex = visibleSlides.findIndex(slide => {
+                const rect = slide.getBoundingClientRect();
+                return rect.top >= 0 && rect.top < window.innerHeight / 2;
+            });
+
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                if (currentIndex < visibleSlides.length - 1) {
+                    visibleSlides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    visibleSlides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                visibleSlides[0].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                visibleSlides[visibleSlides.length - 1].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Print preparation
+        window.addEventListener('beforeprint', () => {
+            // Show all slides for printing
+            slides.forEach(slide => {
+                slide.classList.remove('hidden');
+            });
+        });
+
+        window.addEventListener('afterprint', () => {
+            // Restore hidden states based on button states
+            document.querySelectorAll('.slide-toggle').forEach(button => {
+                const slideNum = button.dataset.slide;
+                const slide = document.querySelector(`.slide[data-slide="${slideNum}"]`);
+                if (!button.classList.contains('active')) {
+                    slide.classList.add('hidden');
+                }
+            });
+        });
+
+        // Persist checkbox states
+        const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            // Load saved state
+            const saved = localStorage.getItem(checkbox.id);
+            if (saved === 'true') {
+                checkbox.checked = true;
+            }
+
+            // Save state on change
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        });
+    </script>
+</body>
+</html>

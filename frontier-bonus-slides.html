@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier Gaming Systems - Bonus Slides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        .slide-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .slide-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .slide-toggle.excluded {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+
+        .slide.excluded {
+            display: none;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 80px 60px;
+        }
+
+        .control-panel h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #8ec5fc 0%, #4a90d9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .control-panel p {
+            font-size: 20px;
+            color: #a0a0a0;
+            margin-bottom: 50px;
+        }
+
+        .slide-checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .checklist-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .checklist-item.excluded {
+            opacity: 0.5;
+            background: rgba(231, 76, 60, 0.1);
+            border-color: rgba(231, 76, 60, 0.3);
+        }
+
+        .checklist-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #4a90d9;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(74, 144, 217, 0.1);
+        }
+
+        .checklist-item.excluded .checklist-checkbox {
+            background: transparent;
+            border-color: #666;
+        }
+
+        .checklist-checkbox::after {
+            content: 'checkmark';
+            color: #2ecc71;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .checklist-item:not(.excluded) .checklist-checkbox::after {
+            display: block;
+        }
+
+        .checklist-label {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Slide Backgrounds */
+        .bg-gradient-1 {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .bg-gradient-2 {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+        }
+
+        .bg-gradient-3 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+        }
+
+        .bg-dark {
+            background: #0a0a0f;
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        h3 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #8ec5fc;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+
+        /* Team Slide */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1000px;
+            margin-bottom: 50px;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a90d9 0%, #8ec5fc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .team-info h4 {
+            margin-bottom: 5px;
+            font-size: 22px;
+        }
+
+        .team-info p {
+            color: #a0a0a0;
+            font-size: 16px;
+        }
+
+        .team-message {
+            text-align: center;
+            font-size: 24px;
+            color: #2ecc71;
+            font-weight: 600;
+            font-style: italic;
+            max-width: 700px;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 16px;
+            border-left: 4px solid #2ecc71;
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-style: italic;
+            color: #e0e0e0;
+        }
+
+        .testimonial-quote::before {
+            content: '"';
+            font-size: 60px;
+            color: #2ecc71;
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        .testimonial-org {
+            color: #8ec5fc;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        /* Before/After */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .comparison-side {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 16px;
+        }
+
+        .comparison-side.before {
+            border: 2px solid #e74c3c;
+        }
+
+        .comparison-side.after {
+            border: 2px solid #2ecc71;
+        }
+
+        .comparison-label {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .before .comparison-label {
+            color: #e74c3c;
+        }
+
+        .after .comparison-label {
+            color: #2ecc71;
+        }
+
+        .comparison-list {
+            list-style: none;
+        }
+
+        .comparison-list li {
+            padding: 15px 0;
+            font-size: 18px;
+            line-height: 1.5;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+
+        .before .comparison-list li::before {
+            content: '✗ ';
+            color: #e74c3c;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .after .comparison-list li::before {
+            content: 'checkmark ';
+            color: #2ecc71;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Objection Handler */
+        .objection-content {
+            max-width: 1200px;
+            text-align: left;
+        }
+
+        .objection-header {
+            background: rgba(241, 196, 15, 0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 30px 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .objection-header h3 {
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+
+        .objection-response {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #2ecc71;
+            padding: 30px 40px;
+            border-radius: 12px;
+        }
+
+        .objection-response h4 {
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+
+        .objection-points {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .objection-points li {
+            padding: 15px 0;
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        .objection-points li::before {
+            content: '→ ';
+            color: #2ecc71;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 35px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #4a90d9;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h4 {
+            margin-bottom: 15px;
+            color: #8ec5fc;
+        }
+
+        .feature-card p {
+            color: #d0d0d0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: rgba(74, 144, 217, 0.2);
+            padding: 25px;
+            font-size: 20px;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 18px;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .check {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .comparison-table .cross {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 1000px;
+            position: relative;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4a90d9 0%, #8ec5fc 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(74, 144, 217, 0.5);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px 30px;
+            border-radius: 12px;
+            flex: 1;
+            border-left: 3px solid #4a90d9;
+        }
+
+        .timeline-content h4 {
+            margin-bottom: 10px;
+            color: #8ec5fc;
+        }
+
+        .timeline-content p {
+            color: #d0d0d0;
+            font-size: 16px;
+        }
+
+        /* FAQ Grid */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 3px solid #4a90d9;
+        }
+
+        .faq-question {
+            font-size: 18px;
+            font-weight: 700;
+            color: #8ec5fc;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            font-size: 16px;
+            color: #d0d0d0;
+            line-height: 1.6;
+        }
+
+        /* Impact Stats */
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin-bottom: 50px;
+        }
+
+        .impact-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 72px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2ecc71 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            font-size: 20px;
+            color: #a0a0a0;
+        }
+
+        .impact-message {
+            max-width: 800px;
+            text-align: center;
+            font-size: 28px;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: linear-gradient(135deg, rgba(74, 144, 217, 0.1) 0%, rgba(142, 197, 252, 0.1) 100%);
+            border: 2px solid #4a90d9;
+            border-radius: 20px;
+            padding: 50px 60px;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .cta-box h3 {
+            margin-bottom: 25px;
+        }
+
+        .cta-box p {
+            font-size: 20px;
+            margin-bottom: 35px;
+            color: #d0d0d0;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a90d9 0%, #8ec5fc 100%);
+            color: white;
+            padding: 18px 45px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 217, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 217, 0.5);
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: 1920px 1080px;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .slide {
+                page-break-after: always;
+                page-break-inside: avoid;
+                min-height: 1080px;
+                height: 1080px;
+                width: 1920px;
+            }
+
+            .slide-toggle {
+                display: none !important;
+            }
+
+            .slide.excluded {
+                display: none !important;
+            }
+
+            .control-panel {
+                display: none !important;
+            }
+        }
+
+        @media screen and (max-width: 1200px) {
+            .slide {
+                padding: 40px;
+            }
+
+            h2 {
+                font-size: 42px;
+            }
+
+            h3 {
+                font-size: 32px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Control Panel -->
+<div class="slide control-panel">
+    <h1>Frontier Gaming Systems - Bonus Slides</h1>
+    <p>Toggle slides on/off to customize your deck. Selected slides will be included in print/PDF export.</p>
+    <div class="slide-checklist" id="slideChecklist">
+        <!-- Populated by JavaScript -->
+    </div>
+</div>
+
+<!-- Slide 1: Team -->
+<div class="slide bg-gradient-1" data-slide-name="Team Slide">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>Built By People Who Care</h2>
+    <div class="team-grid">
+        <div class="team-member">
+            <div class="avatar">BB</div>
+            <div class="team-info">
+                <h4>Brandon Byrne</h4>
+                <p>Co-Founder & CEO</p>
+            </div>
+        </div>
+        <div class="team-member">
+            <div class="avatar">RG</div>
+            <div class="team-info">
+                <h4>Dr. Russell Gavin</h4>
+                <p>Co-Founder & CTO</p>
+            </div>
+        </div>
+        <div class="team-member">
+            <div class="avatar">MH</div>
+            <div class="team-info">
+                <h4>Minard Hamilton</h4>
+                <p>Chief Operations Officer</p>
+            </div>
+        </div>
+        <div class="team-member">
+            <div class="avatar">AR</div>
+            <div class="team-info">
+                <h4>Andrew Ringlein</h4>
+                <p>Chief Technology Officer</p>
+            </div>
+        </div>
+    </div>
+    <p class="team-message">Built with love for charities making a difference</p>
+</div>
+
+<!-- Slide 2: Testimonials -->
+<div class="slide bg-gradient-2" data-slide-name="Customer Testimonials">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>What Our Customers Say</h2>
+    <p class="subtitle">Real experiences from organizations like yours</p>
+    <div class="testimonials-grid">
+        <div class="testimonial">
+            <p class="testimonial-quote">We were losing track of sold cards and had angry players every week. Frontier eliminated all that chaos. Now our volunteers can focus on making players feel welcome instead of frantically managing paperwork.</p>
+            <div class="testimonial-author">Margaret Chen</div>
+            <div class="testimonial-org">Bingo Chair, St. Michael's Catholic Church</div>
+        </div>
+        <div class="testimonial">
+            <p class="testimonial-quote">Our revenue increased 18% in the first three months just from reducing errors and speeding up the lines. The reporting alone has been worth it—I finally know exactly where we stand every single night.</p>
+            <div class="testimonial-author">Tom Rodriguez</div>
+            <div class="testimonial-org">Commander, Elks Lodge #1492</div>
+        </div>
+        <div class="testimonial">
+            <p class="testimonial-quote">I was worried our older volunteers wouldn't adapt, but they picked it up faster than I did! The system is so intuitive that we had people trained in under 20 minutes. Game changer for our post.</p>
+            <div class="testimonial-author">Linda Patterson</div>
+            <div class="testimonial-org">Quartermaster, VFW Post 3847</div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Before/After -->
+<div class="slide bg-dark" data-slide-name="Before/After Comparison">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>A Typical Night: Then vs Now</h2>
+    <p class="subtitle">See the transformation</p>
+    <div class="comparison-grid">
+        <div class="comparison-side before">
+            <div class="comparison-label">The Old Way</div>
+            <ul class="comparison-list">
+                <li>Handwritten sales tracking on clipboards</li>
+                <li>Long lines of frustrated players</li>
+                <li>Arguing over whether cards were paid for</li>
+                <li>Counting cash for hours after closing</li>
+                <li>No idea what sold until you reconcile</li>
+                <li>Mistakes discovered days later</li>
+                <li>Volunteers stressed and overwhelmed</li>
+                <li>Players complaining about wait times</li>
+            </ul>
+        </div>
+        <div class="comparison-side after">
+            <div class="comparison-label">The Frontier Way</div>
+            <ul class="comparison-list">
+                <li>Real-time digital tracking automatically</li>
+                <li>Fast checkout with clear receipts</li>
+                <li>Every transaction recorded and verified</li>
+                <li>Instant end-of-night reconciliation</li>
+                <li>Live dashboard shows sales as they happen</li>
+                <li>Errors caught immediately, not later</li>
+                <li>Volunteers confident and efficient</li>
+                <li>Players praising the smooth experience</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: Objection Handler - Change Resistance -->
+<div class="slide bg-gradient-3" data-slide-name="Objection: Always Done It This Way">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <div class="objection-content">
+        <div class="objection-header">
+            <h3>"But We've Always Done It This Way"</h3>
+            <p style="font-size: 18px; color: #d0d0d0;">We hear you. Change is hard, especially when what you're doing works... mostly.</p>
+        </div>
+        <div class="objection-response">
+            <h4>Here's the thing:</h4>
+            <ul class="objection-points">
+                <li><strong>Your players expect more now.</strong> They use apps for everything else in their lives. Modern convenience = more attendees.</li>
+                <li><strong>Your volunteers deserve easier.</strong> You're asking people to donate their time. Give them tools that make that time less stressful.</li>
+                <li><strong>Your mission needs more revenue.</strong> The old way leaks money through errors, slow throughput, and missed opportunities.</li>
+                <li><strong>The transition is gentler than you think.</strong> We run parallel with your old system until you're 100% comfortable.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Objection Handler - Learning Curve -->
+<div class="slide bg-gradient-1" data-slide-name="Objection: Learning Curve">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <div class="objection-content">
+        <div class="objection-header">
+            <h3>"What About the Learning Curve?"</h3>
+            <p style="font-size: 18px; color: #d0d0d0;">Valid concern. Your volunteers aren't tech experts, and you can't afford chaos.</p>
+        </div>
+        <div class="objection-response">
+            <h4>We've designed this for real people:</h4>
+            <ul class="objection-points">
+                <li><strong>15-20 minute training</strong> gets volunteers fully operational. Not hours, not days. Minutes.</li>
+                <li><strong>Big buttons, simple screens.</strong> We tested this with actual bingo volunteers, not Silicon Valley developers.</li>
+                <li><strong>On-site support on your first night.</strong> We're literally there with you to make sure it goes smoothly.</li>
+                <li><strong>Phone support whenever you need it.</strong> Real humans who answer when you call, not ticket systems.</li>
+                <li><strong>People actually prefer it.</strong> After one night, your team won't want to go back to the old way.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Player Experience -->
+<div class="slide bg-gradient-2" data-slide-name="Player Experience Focus">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>Your Players Will Thank You</h2>
+    <p class="subtitle">Happy players come back more often and spend more</p>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">💳</div>
+            <h4>Pay How They Want</h4>
+            <p>Cash, credit, debit—whatever's in their wallet. No more "ATM only" frustration.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h4>Buy Cards Online</h4>
+            <p>Reserve and pay from home. Walk in, pick up, play. VIP treatment for everyone.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h4>Faster Lines</h4>
+            <p>Nobody likes waiting. Get people seated and playing in a fraction of the time.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h4>Clear Receipts</h4>
+            <p>No more disputes. Every purchase documented and easy to understand.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h4>Player Accounts</h4>
+            <p>Track favorites, reward loyalty, make them feel special and recognized.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <h4>Professional Feel</h4>
+            <p>Modern system shows you care about their experience. Builds trust and loyalty.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Competitive Comparison -->
+<div class="slide bg-dark" data-slide-name="vs Generic POS Systems">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>Why Not Just Use a Generic POS?</h2>
+    <p class="subtitle">Built for bingo vs. adapted for bingo</p>
+    <div class="comparison-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th style="text-align: center;">Generic POS</th>
+                    <th style="text-align: center;">Frontier</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Understands bingo sessions, games, patterns</td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="check">>checkmark<#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Built-in compliance and reporting tools</td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="check">>checkmark<#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Designed for charitable gaming regulations</td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="check">>checkmark<#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Player card management and tracking</td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="check">>checkmark<#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Real-time inventory of bingo cards</td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="check">>checkmark<#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Support team that knows bingo operations</td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="check">>checkmark<#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Monthly cost for full system</td>
+                    <td style="text-align: center;">$200-400+</td>
+                    <td style="text-align: center;"><strong>$149</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Slide 8: Timeline -->
+<div class="slide bg-gradient-3" data-slide-name="Implementation Timeline">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>Up and Running in Days</h2>
+    <p class="subtitle">Not weeks. Not months. Days.</p>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot">1</div>
+            <div class="timeline-content">
+                <h4>Day 1: Discovery Call</h4>
+                <p>We learn about your operation, answer questions, and make sure Frontier is the right fit. 30-45 minutes.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot">2</div>
+            <div class="timeline-content">
+                <h4>Day 2-3: Setup & Configuration</h4>
+                <p>We configure your system, load your games, and get everything customized to your needs. You don't lift a finger.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot">3</div>
+            <div class="timeline-content">
+                <h4>Day 4: Volunteer Training</h4>
+                <p>We train your team on-site or via video. 15-20 minutes per person. Simple, straightforward, confidence-building.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot">4</div>
+            <div class="timeline-content">
+                <h4>Day 5: First Night with Support</h4>
+                <p>We're there (on-site or on-call) for your first session. Hand-holding until you feel completely comfortable.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot">5</div>
+            <div class="timeline-content">
+                <h4>Ongoing: You're in Control</h4>
+                <p>You're running smoothly. We're available whenever you need us, but you probably won't need us much.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Security & Trust -->
+<div class="slide bg-gradient-1" data-slide-name="Security & Trust">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>Your Data, Protected</h2>
+    <p class="subtitle">Security and compliance you can trust</p>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h4>Bank-Level Encryption</h4>
+            <p>All transactions and data encrypted in transit and at rest. Your information is safer than in a filing cabinet.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"></div>
+            <h4>PCI Compliant</h4>
+            <p>We handle credit cards the right way. You're protected from liability and compliance headaches.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h4>Audit-Ready Reports</h4>
+            <p>Every transaction tracked and timestamped. Regulatory audits become simple, not scary.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💾</div>
+            <h4>Automatic Backups</h4>
+            <p>Your data backed up continuously. System crash? No problem. Everything's safe and recoverable.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h4>Role-Based Access</h4>
+            <p>Control who sees what. Your treasurer sees different data than your cashiers. Proper accountability.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📞</div>
+            <h4>US-Based Support</h4>
+            <p>Real people in the United States who understand charitable gaming laws and care about your success.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Mission Impact -->
+<div class="slide bg-gradient-2" data-slide-name="Mission Impact">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>More Money for Your Mission</h2>
+    <p class="subtitle">Because that's why you're running bingo in the first place</p>
+    <div class="impact-stats">
+        <div class="impact-stat">
+            <div class="stat-number">15%</div>
+            <div class="stat-label">Average revenue increase</div>
+        </div>
+        <div class="impact-stat">
+            <div class="stat-number">8hrs</div>
+            <div class="stat-label">Saved per month on admin</div>
+        </div>
+        <div class="impact-stat">
+            <div class="stat-number">$0</div>
+            <div class="stat-label">Lost to preventable errors</div>
+        </div>
+    </div>
+    <p class="impact-message">
+        Every dollar you're losing to inefficiency is a dollar that could be funding your programs,
+        supporting your veterans, feeding your community, or maintaining your building.
+        <strong>Frontier doesn't just make bingo easier—it makes your mission stronger.</strong>
+    </p>
+</div>
+
+<!-- Slide 11: FAQ -->
+<div class="slide bg-dark" data-slide-name="Quick FAQ">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>Quick Answers</h2>
+    <p class="subtitle">The questions everyone asks</p>
+    <div class="faq-grid">
+        <div class="faq-item">
+            <div class="faq-question">How much does it really cost?</div>
+            <div class="faq-answer">$149/month, all-in. No hidden fees, no per-transaction charges, no equipment rental. Hardware purchased separately (we help you get what you need).</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What if our internet goes down?</div>
+            <div class="faq-answer">The system continues running offline. Everything syncs automatically when your connection comes back. You never stop selling.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Do we need new equipment?</div>
+            <div class="faq-answer">You can use tablets you already have, or we'll help you get affordable equipment that works perfectly. Many groups spend $300-600 total to get started.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Can we try it first?</div>
+            <div class="faq-answer">Yes! We offer a live demo where you can see it in action, plus a guided trial period. No commitment until you're sure.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What about our state's regulations?</div>
+            <div class="faq-answer">We've worked with organizations in multiple states and know the compliance requirements. Our reporting tools are built to meet regulatory needs.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How long is the contract?</div>
+            <div class="faq-answer">Month-to-month. No long-term commitment. If it's not working for you, you can cancel anytime. (But nobody does.)</div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Alternative Closing -->
+<div class="slide bg-gradient-3" data-slide-name="Let's Start Small">
+    <button class="slide-toggle" onclick="toggleSlide(this)">Include in Deck</button>
+    <h2>Let's Start Small</h2>
+    <p class="subtitle">No pressure. Just possibilities.</p>
+    <div class="cta-box">
+        <h3>Try a Live Demo</h3>
+        <p>See Frontier in action with your actual games, your actual setup. We'll walk through a complete bingo night from start to finish. Ask anything. Challenge everything. See if this is the right fit for your organization.</p>
+        <p style="margin-bottom: 25px;"><strong>30 minutes. Zero obligation. Maximum clarity.</strong></p>
+        <a href="mailto:sales@frontiergaming.com" class="cta-button">Schedule Your Demo</a>
+        <p style="font-size: 16px; margin-top: 25px; margin-bottom: 0; color: #a0a0a0;">
+            Or call us: (555) 123-4567<br>
+            Real humans. Real answers. Really.
+        </p>
+    </div>
+</div>
+
+<script>
+    // Slide management
+    const slides = document.querySelectorAll('.slide[data-slide-name]');
+    const checklist = document.getElementById('slideChecklist');
+
+    // Initialize checklist
+    slides.forEach((slide, index) => {
+        const slideName = slide.getAttribute('data-slide-name');
+        const item = document.createElement('div');
+        item.className = 'checklist-item';
+        item.setAttribute('data-slide-index', index);
+        item.innerHTML = `
+            <div class="checklist-checkbox"></div>
+            <div class="checklist-label">${slideName}</div>
+        `;
+        item.addEventListener('click', function() {
+            toggleSlideByIndex(index);
+        });
+        checklist.appendChild(item);
+    });
+
+    // Toggle individual slide
+    function toggleSlide(button) {
+        const slide = button.closest('.slide');
+        const slideIndex = Array.from(slides).indexOf(slide);
+        toggleSlideByIndex(slideIndex);
+    }
+
+    // Toggle slide by index
+    function toggleSlideByIndex(index) {
+        const slide = slides[index];
+        const checklistItem = checklist.querySelector(`[data-slide-index="${index}"]`);
+
+        slide.classList.toggle('excluded');
+        checklistItem.classList.toggle('excluded');
+
+        const button = slide.querySelector('.slide-toggle');
+        if (slide.classList.contains('excluded')) {
+            button.textContent = 'Excluded from Deck';
+            button.classList.add('excluded');
+        } else {
+            button.textContent = 'Include in Deck';
+            button.classList.remove('excluded');
+        }
+
+        saveState();
+    }
+
+    // Save state to localStorage
+    function saveState() {
+        const state = [];
+        slides.forEach((slide, index) => {
+            state.push(slide.classList.contains('excluded'));
+        });
+        localStorage.setItem('frontierBonusSlidesState', JSON.stringify(state));
+    }
+
+    // Load state from localStorage
+    function loadState() {
+        const savedState = localStorage.getItem('frontierBonusSlidesState');
+        if (savedState) {
+            const state = JSON.parse(savedState);
+            state.forEach((isExcluded, index) => {
+                if (isExcluded && index < slides.length) {
+                    toggleSlideByIndex(index);
+                }
+            });
+        }
+    }
+
+    // Initialize
+    loadState();
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Press 'R' to reset all slides
+        if (e.key === 'r' || e.key === 'R') {
+            if (confirm('Reset all slides to included state?')) {
+                slides.forEach((slide, index) => {
+                    if (slide.classList.contains('excluded')) {
+                        toggleSlideByIndex(index);
+                    }
+                });
+            }
+        }
+
+        // Press 'P' to print
+        if (e.key === 'p' || e.key === 'P') {
+            if (e.ctrlKey || e.metaKey) {
+                // Let default Ctrl+P work
+            } else {
+                e.preventDefault();
+                window.print();
+            }
+        }
+    });
+
+    // Add helper text to control panel
+    const controlPanel = document.querySelector('.control-panel');
+    const helperText = document.createElement('div');
+    helperText.style.cssText = 'margin-top: 40px; text-align: center; color: #666; font-size: 14px;';
+    helperText.innerHTML = `
+        <p><strong>Keyboard shortcuts:</strong> Press 'R' to reset all slides | Press 'P' to print | Ctrl+P for print dialog</p>
+        <p style="margin-top: 10px;">Your selections are saved automatically and will persist between sessions.</p>
+    `;
+    controlPanel.appendChild(helperText);
+</script>
+
+</body>
+</html>

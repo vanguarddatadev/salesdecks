@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier Gaming Systems - Finance Focus Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: none;
+            padding: 80px 60px 60px 60px;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(138, 197, 252, 0.3);
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #8ec5fc;
+            transition: all 0.3s ease;
+        }
+
+        .slide-toggle:hover {
+            background: rgba(26, 26, 46, 1);
+            border-color: #8ec5fc;
+            transform: translateY(-2px);
+        }
+
+        .control-panel {
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid rgba(138, 197, 252, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .control-panel h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: #8ec5fc;
+            text-align: center;
+        }
+
+        .slide-checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .slide-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: rgba(15, 52, 96, 0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .slide-checkbox:hover {
+            background: rgba(15, 52, 96, 0.5);
+        }
+
+        .slide-checkbox input[type="checkbox"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .slide-checkbox label {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #8ec5fc 0%, #4a90d9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #8ec5fc;
+        }
+
+        .subtitle {
+            font-size: 28px;
+            font-weight: 400;
+            color: #b8c5d6;
+            text-align: center;
+            max-width: 900px;
+            line-height: 1.6;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .stat-large {
+            font-size: 120px;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .stat-large.revenue {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-large.savings {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-description {
+            font-size: 32px;
+            font-weight: 600;
+            color: #e0e0e0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .comparison-box {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(138, 197, 252, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .comparison-box.bad {
+            border-color: rgba(231, 76, 60, 0.5);
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .comparison-box.good {
+            border-color: rgba(46, 204, 113, 0.5);
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .comparison-box h3 {
+            margin-bottom: 30px;
+        }
+
+        .comparison-box.bad h3 {
+            color: #e74c3c;
+        }
+
+        .comparison-box.good h3 {
+            color: #2ecc71;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(15, 52, 96, 0.3);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .cost-item span:first-child {
+            font-weight: 500;
+        }
+
+        .cost-item span:last-child {
+            font-weight: 700;
+            color: #8ec5fc;
+        }
+
+        .total-cost {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(74, 144, 217, 0.2);
+            border-radius: 8px;
+            font-size: 28px;
+            font-weight: 800;
+            color: #8ec5fc;
+        }
+
+        .case-study-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(15, 52, 96, 0.3) 100%);
+            border: 2px solid rgba(46, 204, 113, 0.4);
+            border-radius: 20px;
+            padding: 60px;
+            margin: 40px 0;
+        }
+
+        .case-study-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .case-study-header h3 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #2ecc71;
+        }
+
+        .case-study-tagline {
+            font-size: 24px;
+            color: #b8c5d6;
+            font-weight: 500;
+        }
+
+        .case-study-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .case-study-stat {
+            text-align: center;
+            padding: 30px;
+            background: rgba(26, 26, 46, 0.5);
+            border-radius: 12px;
+        }
+
+        .case-study-stat .number {
+            font-size: 80px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .case-study-stat .number.savings {
+            color: #f1c40f;
+        }
+
+        .case-study-stat .number.revenue {
+            color: #2ecc71;
+        }
+
+        .case-study-stat .label {
+            font-size: 22px;
+            font-weight: 600;
+            color: #b8c5d6;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 40px 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-list li {
+            padding: 24px 24px 24px 70px;
+            margin-bottom: 16px;
+            background: rgba(26, 26, 46, 0.6);
+            border-left: 4px solid #2ecc71;
+            border-radius: 8px;
+            font-size: 22px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "checkmark";
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 32px;
+            color: #2ecc71;
+            font-weight: 900;
+        }
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .benefit-card {
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid rgba(138, 197, 252, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: #8ec5fc;
+            box-shadow: 0 10px 40px rgba(138, 197, 252, 0.2);
+        }
+
+        .benefit-card h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-card p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #b8c5d6;
+        }
+
+        .architecture-diagram {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(138, 197, 252, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+        }
+
+        .architecture-layer {
+            background: rgba(15, 52, 96, 0.4);
+            border: 1px solid rgba(138, 197, 252, 0.4);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .architecture-layer h4 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8ec5fc;
+            margin-bottom: 15px;
+        }
+
+        .architecture-layer p {
+            font-size: 16px;
+            color: #b8c5d6;
+            line-height: 1.6;
+        }
+
+        .architecture-items {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .architecture-item {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(138, 197, 252, 0.3);
+        }
+
+        .roi-box {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, rgba(15, 52, 96, 0.3) 100%);
+            border: 2px solid rgba(241, 196, 15, 0.4);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .roi-box h3 {
+            font-size: 42px;
+            color: #f1c40f;
+            margin-bottom: 30px;
+        }
+
+        .roi-calculation {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .roi-item {
+            background: rgba(26, 26, 46, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .roi-item .value {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .roi-item.cost .value {
+            color: #e74c3c;
+        }
+
+        .roi-item.savings .value {
+            color: #f1c40f;
+        }
+
+        .roi-item.revenue .value {
+            color: #2ecc71;
+        }
+
+        .roi-item .label {
+            font-size: 18px;
+            color: #b8c5d6;
+            font-weight: 600;
+        }
+
+        .contact-box {
+            background: rgba(26, 26, 46, 0.6);
+            border: 2px solid rgba(138, 197, 252, 0.4);
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .contact-box h3 {
+            font-size: 42px;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            font-size: 24px;
+            line-height: 2;
+            margin: 30px 0;
+        }
+
+        .contact-info a {
+            color: #8ec5fc;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #4a90d9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+        }
+
+        .quote {
+            font-size: 32px;
+            font-style: italic;
+            text-align: center;
+            color: #8ec5fc;
+            margin: 40px 0;
+            padding: 40px;
+            background: rgba(26, 26, 46, 0.4);
+            border-radius: 12px;
+            border-left: 4px solid #8ec5fc;
+        }
+
+        .highlight {
+            color: #2ecc71;
+            font-weight: 700;
+        }
+
+        .highlight.yellow {
+            color: #f1c40f;
+        }
+
+        .highlight.blue {
+            color: #8ec5fc;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .slide {
+                display: flex !important;
+                page-break-after: always;
+                min-height: 100vh;
+                background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .slide-toggle {
+                display: none !important;
+            }
+
+            .slide-checklist {
+                display: none !important;
+            }
+
+            .control-panel {
+                display: none !important;
+            }
+
+            #slide-0 {
+                display: none !important;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            .slide {
+                padding: 60px 40px;
+            }
+
+            h1 {
+                font-size: 56px;
+            }
+
+            h2 {
+                font-size: 42px;
+            }
+
+            .subtitle {
+                font-size: 22px;
+            }
+
+            .comparison-grid,
+            .benefit-grid,
+            .case-study-stats,
+            .roi-calculation {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="slide-toggle" onclick="toggleSlide()">Select Slides</button>
+
+    <!-- Slide 0: Control Panel -->
+    <div class="slide active" id="slide-0">
+        <div class="control-panel">
+            <h2>Finance Focus Deck - Slide Control</h2>
+            <p style="text-align: center; color: #b8c5d6; margin-bottom: 30px;">
+                Select which slides to include in your presentation. Use this for customizing the deck for specific audiences.
+            </p>
+            <div class="slide-checklist" id="slideChecklist"></div>
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="cta-button" onclick="startPresentation()">Start Presentation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide" id="slide-1">
+        <div class="content-container">
+            <h1>The Numbers Make Sense</h1>
+            <p class="subtitle">
+                A financial analysis of Frontier Gaming Systems:<br>
+                Lower costs. Better books. Higher revenue. Stronger ROI.
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 2: The Real Cost of Multiple Systems -->
+    <div class="slide" id="slide-2">
+        <div class="content-container">
+            <h2>The Real Cost of Multiple Systems</h2>
+            <p class="subtitle" style="margin-bottom: 50px;">
+                Most gaming businesses are paying for 5-8 separate subscriptions
+            </p>
+            <ul class="feature-list">
+                <li>Point of Sale system - $200-400/month</li>
+                <li>Payment processing - High rates + monthly fees</li>
+                <li>Online booking platform - $100-300/month</li>
+                <li>Inventory management - $150-250/month</li>
+                <li>Marketing tools - $100-200/month</li>
+                <li>Accounting software integration - $50-150/month</li>
+                <li>Reporting dashboard - $100-200/month</li>
+                <li>Customer database - $75-150/month</li>
+            </ul>
+            <p class="stat-description" style="color: #e74c3c; margin-top: 40px;">
+                Total: $875 - $2,000+ per month in subscriptions alone
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 3: Vanguard Case Study -->
+    <div class="slide" id="slide-3">
+        <div class="content-container">
+            <div class="case-study-box">
+                <div class="case-study-header">
+                    <h3>Vanguard Gaming</h3>
+                    <p class="case-study-tagline">Real results from a real customer</p>
+                </div>
+                <div class="case-study-stats">
+                    <div class="case-study-stat">
+                        <div class="number savings">$7,000</div>
+                        <div class="label">Monthly Cost Reduction</div>
+                    </div>
+                    <div class="case-study-stat">
+                        <div class="number revenue">+80%</div>
+                        <div class="label">Revenue Increase</div>
+                    </div>
+                </div>
+                <p class="quote" style="margin-top: 50px;">
+                    "We eliminated six different subscriptions, cut our monthly tech costs by $7,000, and our revenue went up 80%. The ROI was immediate."
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: One Bill vs Six Bills -->
+    <div class="slide" id="slide-4">
+        <div class="content-container">
+            <h2>One Bill vs. Six Bills</h2>
+            <div class="comparison-grid">
+                <div class="comparison-box bad">
+                    <h3>Current State: Multiple Vendors</h3>
+                    <div class="cost-item">
+                        <span>POS System</span>
+                        <span>$350/mo</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Online Booking</span>
+                        <span>$250/mo</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Inventory Mgmt</span>
+                        <span>$200/mo</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Marketing Tools</span>
+                        <span>$150/mo</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Reporting Dashboard</span>
+                        <span>$150/mo</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Payment Gateway</span>
+                        <span>$100/mo</span>
+                    </div>
+                    <div class="total-cost">
+                        Total: $1,200/month
+                    </div>
+                </div>
+                <div class="comparison-box good">
+                    <h3>Frontier: One Platform</h3>
+                    <div class="cost-item">
+                        <span>Complete Platform</span>
+                        <span>$400-600/mo</span>
+                    </div>
+                    <div style="padding: 24px; margin: 16px 0;">
+                        <p style="font-size: 18px; color: #2ecc71; line-height: 1.8;">
+                            <strong>All included:</strong><br>
+                            POS • Online Booking • Inventory<br>
+                            Marketing • Reporting • Payments<br>
+                            Customer Database • Accounting Integration
+                        </p>
+                    </div>
+                    <div class="total-cost" style="background: rgba(46, 204, 113, 0.2); color: #2ecc71;">
+                        Save: $600-800/month
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Credit Card Revenue Impact -->
+    <div class="slide" id="slide-5">
+        <div class="content-container">
+            <h2>Credit Card Acceptance</h2>
+            <div class="stat-large revenue">+18%</div>
+            <p class="stat-description">Average revenue increase from accepting credit cards</p>
+            <ul class="feature-list" style="margin-top: 60px;">
+                <li>Customers spend more when using cards vs. cash</li>
+                <li>Reduce friction at checkout - faster transactions</li>
+                <li>Capture impulse purchases and add-ons</li>
+                <li>Enable online pre-purchases and deposits</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 6: Online Sales Revenue Impact -->
+    <div class="slide" id="slide-6">
+        <div class="content-container">
+            <h2>Online Sales Channel</h2>
+            <div class="stat-large revenue">+39%</div>
+            <p class="stat-description">Combined impact: Credit cards + Online booking</p>
+            <ul class="feature-list" style="margin-top: 60px;">
+                <li>24/7 booking and purchasing - never miss a sale</li>
+                <li>Reduce no-shows with online deposits</li>
+                <li>Capture customers who prefer to book online</li>
+                <li>Enable event pre-registration and package sales</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 7: $20M+ Added Revenue -->
+    <div class="slide" id="slide-7">
+        <div class="content-container">
+            <h2>Proven Revenue Impact</h2>
+            <div class="stat-large revenue">$20M+</div>
+            <p class="stat-description">Total revenue added across our customer base</p>
+            <div class="benefit-grid" style="margin-top: 60px;">
+                <div class="benefit-card">
+                    <h3 class="highlight">Higher Transaction Values</h3>
+                    <p>Credit card customers spend 15-25% more per visit on average</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight">More Transactions</h3>
+                    <p>Online booking increases total bookings by 20-30%</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight">Better Conversion</h3>
+                    <p>Seamless checkout reduces abandoned purchases</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight">Data-Driven Growth</h3>
+                    <p>Analytics show what's working so you can optimize</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Cleaner Books, Easier Audits -->
+    <div class="slide" id="slide-8">
+        <div class="content-container">
+            <h2>Cleaner Books, Easier Audits</h2>
+            <p class="subtitle" style="margin-bottom: 50px;">
+                Direct integration with QuickBooks and Xero
+            </p>
+            <ul class="feature-list">
+                <li>Automatic transaction sync - no manual entry</li>
+                <li>Revenue categorized correctly from day one</li>
+                <li>Payment processing fees tracked separately</li>
+                <li>Inventory COGS calculated automatically</li>
+                <li>Sales tax collected and reported accurately</li>
+                <li>Reconciliation takes minutes, not hours</li>
+            </ul>
+            <p class="stat-description" style="margin-top: 50px; color: #2ecc71;">
+                Save 10-15 hours per month on bookkeeping
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 9: Compliance Without the Stress -->
+    <div class="slide" id="slide-9">
+        <div class="content-container">
+            <h2>Compliance Without the Stress</h2>
+            <p class="subtitle" style="margin-bottom: 50px;">
+                Automated reporting and compliance built in
+            </p>
+            <div class="benefit-grid">
+                <div class="benefit-card">
+                    <h3 class="highlight yellow">PCI Compliance</h3>
+                    <p>Level 1 PCI DSS certified - payment data handled securely without your team needing to manage it</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight yellow">Sales Tax Tracking</h3>
+                    <p>Automatic calculation and reporting by jurisdiction - ready for your accountant</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight yellow">Financial Controls</h3>
+                    <p>User permissions, cash drawer tracking, void authorization - audit-ready from day one</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight yellow">Automated Backups</h3>
+                    <p>Your financial data is backed up continuously and can be exported anytime</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Every Transaction Tracked -->
+    <div class="slide" id="slide-10">
+        <div class="content-container">
+            <h2>Every Transaction Tracked</h2>
+            <p class="subtitle" style="margin-bottom: 50px;">
+                Complete audit trails for every financial event
+            </p>
+            <ul class="feature-list">
+                <li>Who processed each transaction and when</li>
+                <li>Complete refund and void history with reasons</li>
+                <li>Inventory adjustments tracked with user and timestamp</li>
+                <li>Cash drawer reconciliation with variance reporting</li>
+                <li>Discount and comp authorization trails</li>
+                <li>Payment method breakdown for every shift</li>
+            </ul>
+            <p class="stat-description" style="margin-top: 50px; color: #8ec5fc;">
+                Everything your auditor needs, instantly accessible
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 11: Real-Time Financial Visibility -->
+    <div class="slide" id="slide-11">
+        <div class="content-container">
+            <h2>Real-Time Financial Visibility</h2>
+            <p class="subtitle" style="margin-bottom: 50px;">
+                Know your numbers instantly, not days later
+            </p>
+            <div class="benefit-grid">
+                <div class="benefit-card">
+                    <h3 class="highlight blue">Revenue Dashboard</h3>
+                    <p>See today's sales, this week's trends, month-over-month comparisons - updated live</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight blue">Product Performance</h3>
+                    <p>Which items are profitable, which aren't - margin analysis in real-time</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight blue">Labor Cost Tracking</h3>
+                    <p>Track labor as percentage of revenue by shift and employee</p>
+                </div>
+                <div class="benefit-card">
+                    <h3 class="highlight blue">Custom Reports</h3>
+                    <p>Build the exact reports your board or investors want to see</p>
+                </div>
+            </div>
+            <p class="stat-description" style="margin-top: 50px;">
+                Make financial decisions based on data, not guesswork
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 12: Competitive Processing Rates -->
+    <div class="slide" id="slide-12">
+        <div class="content-container">
+            <h2>Competitive Processing Rates</h2>
+            <p class="subtitle" style="margin-bottom: 50px;">
+                We don't make money by overcharging you on payments
+            </p>
+            <div class="comparison-grid">
+                <div class="comparison-box bad">
+                    <h3>Typical POS Company Rates</h3>
+                    <div class="cost-item">
+                        <span>Card Processing</span>
+                        <span>2.9% + 30¢</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Monthly Minimum</span>
+                        <span>$50-100</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Equipment Lease</span>
+                        <span>$80-150/mo</span>
+                    </div>
+                    <p style="margin-top: 30px; font-size: 18px; color: #e74c3c;">
+                        Often locked into 3-year contracts with early termination fees
+                    </p>
+                </div>
+                <div class="comparison-box good">
+                    <h3>Frontier Platform Rates</h3>
+                    <div class="cost-item">
+                        <span>Card Processing</span>
+                        <span>2.6% + 10¢</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Monthly Minimum</span>
+                        <span>$0</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Equipment</span>
+                        <span>Purchase or lease</span>
+                    </div>
+                    <p style="margin-top: 30px; font-size: 18px; color: #2ecc71;">
+                        No long-term contracts. Transparent pricing. No hidden fees.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: ROI Calculator Thinking -->
+    <div class="slide" id="slide-13">
+        <div class="content-container">
+            <h2>ROI Calculator</h2>
+            <p class="subtitle" style="margin-bottom: 40px;">
+                Typical 6-month ROI for a mid-sized gaming venue
+            </p>
+            <div class="roi-box">
+                <h3>Example: $50,000/month revenue venue</h3>
+                <div class="roi-calculation">
+                    <div class="roi-item cost">
+                        <div class="value">$3,600</div>
+                        <div class="label">Platform Investment<br>(6 months @ $600/mo)</div>
+                    </div>
+                    <div class="roi-item savings">
+                        <div class="value">$4,200</div>
+                        <div class="label">Subscription Savings<br>(6 months @ $700/mo saved)</div>
+                    </div>
+                    <div class="roi-item revenue">
+                        <div class="value">$19,500</div>
+                        <div class="label">Revenue Increase<br>(+$50k × 39% × 6 months)</div>
+                    </div>
+                </div>
+                <p class="stat-description" style="font-size: 38px; margin-top: 40px; color: #2ecc71;">
+                    Net 6-Month Gain: <span class="highlight">$20,100</span>
+                </p>
+                <p style="font-size: 20px; margin-top: 30px; color: #b8c5d6;">
+                    This doesn't include time savings on bookkeeping, reconciliation, and reporting
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: The Frontier Platform -->
+    <div class="slide" id="slide-14">
+        <div class="content-container">
+            <h2>The Frontier Platform</h2>
+            <p class="subtitle" style="margin-bottom: 40px;">
+                One integrated system that replaces all your separate tools
+            </p>
+            <div class="architecture-diagram">
+                <div class="architecture-layer">
+                    <h4>Customer-Facing Layer</h4>
+                    <div class="architecture-items">
+                        <span class="architecture-item">Online Booking</span>
+                        <span class="architecture-item">Mobile App</span>
+                        <span class="architecture-item">Email Marketing</span>
+                        <span class="architecture-item">Customer Portal</span>
+                    </div>
+                </div>
+                <div class="architecture-layer">
+                    <h4>Operations Layer</h4>
+                    <div class="architecture-items">
+                        <span class="architecture-item">POS System</span>
+                        <span class="architecture-item">Inventory Management</span>
+                        <span class="architecture-item">Event Scheduling</span>
+                        <span class="architecture-item">Staff Management</span>
+                    </div>
+                </div>
+                <div class="architecture-layer">
+                    <h4>Financial Layer</h4>
+                    <div class="architecture-items">
+                        <span class="architecture-item">Payment Processing</span>
+                        <span class="architecture-item">Accounting Integration</span>
+                        <span class="architecture-item">Reporting & Analytics</span>
+                        <span class="architecture-item">Tax Compliance</span>
+                    </div>
+                </div>
+                <div class="architecture-layer" style="background: rgba(46, 204, 113, 0.2); border-color: rgba(46, 204, 113, 0.5);">
+                    <h4 style="color: #2ecc71;">Data Layer (Your Single Source of Truth)</h4>
+                    <p>All customer, transaction, inventory, and financial data in one unified database</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Contact/CTA -->
+    <div class="slide" id="slide-15">
+        <div class="content-container">
+            <div class="contact-box">
+                <h3>Let's Talk Numbers</h3>
+                <p class="subtitle" style="font-size: 22px;">
+                    We can run the specific ROI calculation for your business based on your current costs and revenue.
+                </p>
+                <div class="contact-info">
+                    <p><strong>Schedule a Financial Review:</strong></p>
+                    <p><a href="mailto:sales@frontiergaming.com">sales@frontiergaming.com</a></p>
+                    <p><a href="tel:+15555551234">(555) 555-1234</a></p>
+                    <p><a href="https://frontiergaming.com">frontiergaming.com</a></p>
+                </div>
+                <a href="mailto:sales@frontiergaming.com" class="cta-button">Request ROI Analysis</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Closing -->
+    <div class="slide" id="slide-16">
+        <div class="content-container">
+            <h1 style="font-size: 64px;">Lower Costs.<br>Better Books.<br>Higher Revenue.</h1>
+            <p class="subtitle" style="margin-top: 50px; font-size: 32px;">
+                That's the Frontier difference.
+            </p>
+            <div style="text-align: center; margin-top: 80px;">
+                <p style="font-size: 24px; color: #8ec5fc; font-weight: 600;">
+                    Frontier Gaming Systems
+                </p>
+                <p style="font-size: 18px; color: #b8c5d6; margin-top: 10px;">
+                    The complete platform for gaming businesses
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slide data
+        const slides = [
+            { id: 0, title: "Control Panel", enabled: true },
+            { id: 1, title: "Title: The Numbers Make Sense", enabled: true },
+            { id: 2, title: "The Real Cost of Multiple Systems", enabled: true },
+            { id: 3, title: "Case Study: Vanguard - $7k/mo savings + 80% revenue", enabled: true },
+            { id: 4, title: "One Bill vs. Six Bills", enabled: true },
+            { id: 5, title: "Credit Card Revenue Impact (+18%)", enabled: true },
+            { id: 6, title: "Online Sales Revenue Impact (+39%)", enabled: true },
+            { id: 7, title: "$20M+ Added Revenue", enabled: true },
+            { id: 8, title: "Cleaner Books, Easier Audits", enabled: true },
+            { id: 9, title: "Compliance Without the Stress", enabled: true },
+            { id: 10, title: "Every Transaction Tracked", enabled: true },
+            { id: 11, title: "Real-Time Financial Visibility", enabled: true },
+            { id: 12, title: "Competitive Processing Rates", enabled: true },
+            { id: 13, title: "ROI Calculator", enabled: true },
+            { id: 14, title: "The Frontier Platform Architecture", enabled: true },
+            { id: 15, title: "Contact/CTA", enabled: true },
+            { id: 16, title: "Closing Slide", enabled: true }
+        ];
+
+        // Initialize checklist
+        function initializeChecklist() {
+            const checklist = document.getElementById('slideChecklist');
+            slides.forEach(slide => {
+                if (slide.id === 0) return; // Skip control panel
+
+                const div = document.createElement('div');
+                div.className = 'slide-checkbox';
+                div.innerHTML = `
+                    <input type="checkbox" id="check-${slide.id}" ${slide.enabled ? 'checked' : ''}>
+                    <label for="check-${slide.id}">${slide.title}</label>
+                `;
+                checklist.appendChild(div);
+
+                // Add click handler to the entire div
+                div.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT') {
+                        const checkbox = this.querySelector('input');
+                        checkbox.checked = !checkbox.checked;
+                        updateSlideState(slide.id, checkbox.checked);
+                    } else {
+                        updateSlideState(slide.id, e.target.checked);
+                    }
+                });
+            });
+        }
+
+        // Update slide enabled state
+        function updateSlideState(slideId, enabled) {
+            const slide = slides.find(s => s.id === slideId);
+            if (slide) {
+                slide.enabled = enabled;
+            }
+        }
+
+        // Toggle between control panel and current slide
+        let currentSlide = 0;
+        let lastSlide = 0;
+
+        function toggleSlide() {
+            if (currentSlide === 0) {
+                // Going from control panel to last viewed slide
+                showSlide(lastSlide || 1);
+            } else {
+                // Going to control panel
+                lastSlide = currentSlide;
+                showSlide(0);
+            }
+        }
+
+        function showSlide(index) {
+            const allSlides = document.querySelectorAll('.slide');
+            allSlides.forEach(slide => slide.classList.remove('active'));
+
+            const targetSlide = document.getElementById(`slide-${index}`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+                currentSlide = index;
+            }
+        }
+
+        function startPresentation() {
+            // Find first enabled slide (skip control panel)
+            const firstEnabledSlide = slides.find(s => s.id > 0 && s.enabled);
+            if (firstEnabledSlide) {
+                showSlide(firstEnabledSlide.id);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (currentSlide === 0) return; // Don't navigate from control panel
+
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Escape') {
+                showSlide(0);
+            }
+        });
+
+        function nextSlide() {
+            let next = currentSlide + 1;
+            while (next < slides.length) {
+                if (slides[next].enabled) {
+                    showSlide(next);
+                    return;
+                }
+                next++;
+            }
+        }
+
+        function prevSlide() {
+            let prev = currentSlide - 1;
+            while (prev > 0) {
+                if (slides[prev].enabled) {
+                    showSlide(prev);
+                    return;
+                }
+                prev--;
+            }
+        }
+
+        // Click navigation
+        document.addEventListener('click', function(e) {
+            if (currentSlide === 0) return;
+            if (e.target.closest('.slide-toggle')) return;
+            if (e.target.closest('a')) return;
+            if (e.target.closest('button')) return;
+
+            const clickX = e.clientX;
+            const windowWidth = window.innerWidth;
+
+            if (clickX > windowWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('load', function() {
+            initializeChecklist();
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier Gaming Systems - Data-Driven Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: none;
+            padding: 80px 60px 60px 60px;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0f 0%, #16213e 100%);
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 600px;
+        }
+
+        .slide-btn {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            color: #2ecc71;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .slide-btn:hover {
+            background: rgba(46, 204, 113, 0.3);
+            border-color: #2ecc71;
+        }
+
+        .slide-btn.active {
+            background: #2ecc71;
+            color: #0a0a0f;
+            border-color: #2ecc71;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #ffffff 0%, #8ec5fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #8ec5fc;
+        }
+
+        p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(142, 197, 252, 0.1) 0%, rgba(74, 144, 217, 0.05) 100%);
+            border: 1px solid rgba(142, 197, 252, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(142, 197, 252, 0.4);
+            box-shadow: 0 10px 40px rgba(142, 197, 252, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #2ecc71;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-number.negative {
+            color: #e74c3c;
+        }
+
+        .stat-number.warning {
+            color: #f1c40f;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, rgba(74, 144, 217, 0.3) 0%, rgba(142, 197, 252, 0.2) 100%);
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #8ec5fc;
+            border-bottom: 2px solid rgba(142, 197, 252, 0.3);
+        }
+
+        .data-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background: rgba(142, 197, 252, 0.05);
+        }
+
+        .data-table .number {
+            font-weight: 700;
+            color: #2ecc71;
+        }
+
+        .data-table .negative {
+            color: #e74c3c;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .comparison-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8) 0%, rgba(15, 52, 96, 0.4) 100%);
+            border: 1px solid rgba(142, 197, 252, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .comparison-card.current {
+            border-color: rgba(231, 76, 60, 0.5);
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(231, 76, 60, 0.05) 100%);
+        }
+
+        .comparison-card.frontier {
+            border-color: rgba(46, 204, 113, 0.5);
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.05) 100%);
+        }
+
+        .comparison-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #8ec5fc;
+        }
+
+        .comparison-card.current .comparison-title {
+            color: #e74c3c;
+        }
+
+        .comparison-card.frontier .comparison-title {
+            color: #2ecc71;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .breakdown-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .breakdown-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .breakdown-list li:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #2ecc71;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .breakdown-label {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .breakdown-value {
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .case-study-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.05) 100%);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 30px;
+        }
+
+        .case-study-header {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2ecc71;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .roi-calculator {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8) 0%, rgba(15, 52, 96, 0.6) 100%);
+            border: 1px solid rgba(142, 197, 252, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 30px;
+        }
+
+        .roi-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.3rem;
+        }
+
+        .roi-row:last-child {
+            border-bottom: none;
+            border-top: 2px solid rgba(46, 204, 113, 0.3);
+            margin-top: 10px;
+            padding-top: 25px;
+        }
+
+        .roi-label {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+        }
+
+        .roi-value {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #2ecc71;
+        }
+
+        .roi-value.investment {
+            color: #e74c3c;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, rgba(241, 196, 15, 0.05) 100%);
+            border-left: 4px solid #f1c40f;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f1c40f;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.2) 0%, rgba(74, 144, 217, 0.2) 100%);
+            border: 2px solid rgba(46, 204, 113, 0.4);
+            border-radius: 20px;
+            padding: 50px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .cta-box h3 {
+            font-size: 2.5rem;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+
+        .cta-box p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-top: 40px;
+        }
+
+        .checklist li {
+            padding: 15px 25px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .checklist li:before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(142, 197, 252, 0.5);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checklist li:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(142, 197, 252, 0.3);
+        }
+
+        .checklist li.checked {
+            background: rgba(46, 204, 113, 0.1);
+            border-color: rgba(46, 204, 113, 0.3);
+        }
+
+        .checklist li.checked:before {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            content: '✓';
+            color: #0a0a0f;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .architecture-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(142, 197, 252, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .architecture-card h4 {
+            font-size: 1.3rem;
+            color: #8ec5fc;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .architecture-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .slide {
+                display: flex !important;
+                page-break-after: always;
+                min-height: 100vh;
+                background: white;
+                color: #000;
+            }
+
+            .slide-toggle {
+                display: none;
+            }
+
+            h1, h2, h3 {
+                -webkit-text-fill-color: #000;
+                color: #000;
+            }
+
+            p, .stat-label, .metric-label, .breakdown-label {
+                color: #333;
+            }
+
+            .stat-card, .comparison-card, .case-study-box, .roi-calculator {
+                border: 2px solid #ddd;
+                background: #f9f9f9;
+            }
+
+            .data-table {
+                border: 1px solid #ddd;
+            }
+
+            .data-table th {
+                background: #e9e9e9;
+                color: #000;
+            }
+
+            .data-table td {
+                color: #000;
+            }
+        }
+
+        @page {
+            size: letter landscape;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide Toggle Navigation -->
+    <div class="slide-toggle">
+        <button class="slide-btn active" onclick="goToSlide(0)">Ctrl</button>
+        <button class="slide-btn" onclick="goToSlide(1)">1</button>
+        <button class="slide-btn" onclick="goToSlide(2)">2</button>
+        <button class="slide-btn" onclick="goToSlide(3)">3</button>
+        <button class="slide-btn" onclick="goToSlide(4)">4</button>
+        <button class="slide-btn" onclick="goToSlide(5)">5</button>
+        <button class="slide-btn" onclick="goToSlide(6)">6</button>
+        <button class="slide-btn" onclick="goToSlide(7)">7</button>
+        <button class="slide-btn" onclick="goToSlide(8)">8</button>
+        <button class="slide-btn" onclick="goToSlide(9)">9</button>
+        <button class="slide-btn" onclick="goToSlide(10)">10</button>
+        <button class="slide-btn" onclick="goToSlide(11)">11</button>
+        <button class="slide-btn" onclick="goToSlide(12)">12</button>
+        <button class="slide-btn" onclick="goToSlide(13)">13</button>
+        <button class="slide-btn" onclick="goToSlide(14)">14</button>
+        <button class="slide-btn" onclick="goToSlide(15)">15</button>
+        <button class="slide-btn" onclick="goToSlide(16)">16</button>
+        <button class="slide-btn" onclick="goToSlide(17)">17</button>
+    </div>
+
+    <!-- Slide 0: Control Panel -->
+    <section class="slide active">
+        <h2>Presentation Control Panel</h2>
+        <p class="subtitle">Click any slide number above to jump directly to it, or use keyboard arrows to navigate.</p>
+
+        <h3 style="margin-top: 40px;">Slide Checklist</h3>
+        <ul class="checklist">
+            <li onclick="toggleCheck(this)">Title Slide - The Data Behind Better Bingo Operations</li>
+            <li onclick="toggleCheck(this)">Slide 1 - By The Numbers: Industry Overview</li>
+            <li onclick="toggleCheck(this)">Slide 2 - The Cost of Status Quo</li>
+            <li onclick="toggleCheck(this)">Slide 3 - Revenue Impact: Credit Card Processing</li>
+            <li onclick="toggleCheck(this)">Slide 4 - Revenue Impact: Online Sales Channel</li>
+            <li onclick="toggleCheck(this)">Slide 5 - Cost Comparison: 6 Systems vs. 1 Platform</li>
+            <li onclick="toggleCheck(this)">Slide 6 - Case Study: Vanguard Bingo Hall</li>
+            <li onclick="toggleCheck(this)">Slide 7 - Aggregate Customer Impact: $20M+ Revenue Added</li>
+            <li onclick="toggleCheck(this)">Slide 8 - Time Savings Analysis</li>
+            <li onclick="toggleCheck(this)">Slide 9 - ROI Calculator</li>
+            <li onclick="toggleCheck(this)">Slide 10 - Payback Period Analysis</li>
+            <li onclick="toggleCheck(this)">Slide 11 - Benchmark Comparison</li>
+            <li onclick="toggleCheck(this)">Slide 12 - Transaction Data Analysis</li>
+            <li onclick="toggleCheck(this)">Slide 13 - Compliance Cost Reduction</li>
+            <li onclick="toggleCheck(this)">Slide 14 - Platform Architecture</li>
+            <li onclick="toggleCheck(this)">Slide 15 - Next Step: See Your Numbers</li>
+            <li onclick="toggleCheck(this)">Slide 16 - Closing</li>
+        </ul>
+
+        <p style="margin-top: 50px; font-size: 1.2rem; color: rgba(255,255,255,0.6);">
+            <strong>Navigation:</strong> Use Left/Right arrow keys or click slide numbers above.<br>
+            <strong>Print:</strong> Ctrl+P (or Cmd+P) will format all slides for PDF export.
+        </p>
+    </section>
+
+    <!-- Slide 1: Title -->
+    <section class="slide">
+        <h1>The Data Behind<br>Better Bingo Operations</h1>
+        <p class="subtitle">A Quantitative Analysis of Frontier Gaming Systems Platform Performance</p>
+
+        <div style="margin-top: 80px;">
+            <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6);">
+                This presentation contains verified performance data, customer case studies,<br>
+                and ROI calculations based on real-world implementations.
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide 2: By The Numbers -->
+    <section class="slide">
+        <h2>By The Numbers</h2>
+        <p class="subtitle">Key Industry Statistics and Platform Performance Metrics</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">+18%</div>
+                <div class="stat-label">Average Revenue Increase<br>Credit Card Processing</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">+39%</div>
+                <div class="stat-label">Combined Revenue Increase<br>Online + Credit Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$20M+</div>
+                <div class="stat-label">Total Revenue Added<br>Across Customer Base</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15-20hrs</div>
+                <div class="stat-label">Staff Time Saved<br>Per Week</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number negative">6</div>
+                <div class="stat-label">Average Systems Replaced<br>Per Implementation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$7,000</div>
+                <div class="stat-label">Average Monthly Savings<br>System Consolidation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">92%</div>
+                <div class="stat-label">Customer Satisfaction Rate<br>Post-Implementation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number warning">3-7mo</div>
+                <div class="stat-label">Typical ROI Payback Period<br>Full Platform Investment</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Cost of Status Quo -->
+    <section class="slide">
+        <h2>The Cost of Status Quo</h2>
+        <p class="subtitle">Quantified Impact of Maintaining Multiple Disconnected Systems</p>
+
+        <div class="comparison-grid">
+            <div class="stat-card">
+                <div class="stat-number negative">15-20hrs</div>
+                <div class="stat-label">Weekly Hours Lost to Manual Processes</div>
+                <p style="margin-top: 20px; font-size: 1.1rem;">
+                    Data entry duplication, reconciliation errors, manual reporting compilation
+                </p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number negative">$84K</div>
+                <div class="stat-label">Annual Labor Cost (Inefficiency)</div>
+                <p style="margin-top: 20px; font-size: 1.1rem;">
+                    Based on 18hrs/week × $90/hr loaded labor rate × 52 weeks
+                </p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number negative">18%</div>
+                <div class="stat-label">Revenue Left on Table</div>
+                <p style="margin-top: 20px; font-size: 1.1rem;">
+                    Cash-only operations forgo credit card convenience premium
+                </p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number negative">$42K</div>
+                <div class="stat-label">Annual System License Fees (6 systems)</div>
+                <p style="margin-top: 20px; font-size: 1.1rem;">
+                    Average: $7,000/month for POS, accounting, player tracking, etc.
+                </p>
+            </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top: 50px;">
+            <p>Total Annual Cost of Inefficiency: $126,000 in quantifiable losses per hall</p>
+        </div>
+    </section>
+
+    <!-- Slide 4: Revenue Impact Credit Cards -->
+    <section class="slide">
+        <h2>Revenue Impact: Credit Card Processing</h2>
+        <p class="subtitle">How Integrated Payment Processing Drives +18% Revenue Growth</p>
+
+        <div class="comparison-grid">
+            <div class="comparison-card current">
+                <div class="comparison-title">Cash-Only Model</div>
+                <div class="metric-row">
+                    <span class="metric-label">Average Ticket</span>
+                    <span class="metric-value">$47</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Sessions/Week</span>
+                    <span class="metric-value">200</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Weekly Revenue</span>
+                    <span class="metric-value">$9,400</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Annual Revenue</span>
+                    <span class="metric-value">$488,800</span>
+                </div>
+            </div>
+
+            <div class="comparison-card frontier">
+                <div class="comparison-title">Credit Card Enabled</div>
+                <div class="metric-row">
+                    <span class="metric-label">Average Ticket</span>
+                    <span class="metric-value">$55.50</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Sessions/Week</span>
+                    <span class="metric-value">200</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Weekly Revenue</span>
+                    <span class="metric-value">$11,100</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Annual Revenue</span>
+                    <span class="metric-value">$577,200</span>
+                </div>
+            </div>
+        </div>
+
+        <ul class="breakdown-list">
+            <li>
+                <span class="breakdown-label">Annual Revenue Increase</span>
+                <span class="breakdown-value">+$88,400</span>
+            </li>
+            <li>
+                <span class="breakdown-label">Percentage Increase</span>
+                <span class="breakdown-value">+18%</span>
+            </li>
+            <li>
+                <span class="breakdown-label">Processing Fees (2.9% avg)</span>
+                <span class="breakdown-value">-$16,739</span>
+            </li>
+            <li>
+                <span class="breakdown-label">Net Annual Gain</span>
+                <span class="breakdown-value">+$71,661</span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Slide 5: Revenue Impact Online Sales -->
+    <section class="slide">
+        <h2>Revenue Impact: Online Sales Channel</h2>
+        <p class="subtitle">Combined Effect of Credit Cards + Online Advance Purchases</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Sales Channel</th>
+                    <th>% of Total Sales</th>
+                    <th>Avg Ticket Size</th>
+                    <th>Weekly Revenue</th>
+                    <th>Annual Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cash-Only Baseline</strong></td>
+                    <td>100%</td>
+                    <td>$47</td>
+                    <td>$9,400</td>
+                    <td>$488,800</td>
+                </tr>
+                <tr>
+                    <td>In-Person Credit Cards</td>
+                    <td>42%</td>
+                    <td>$61</td>
+                    <td>$5,124</td>
+                    <td>$266,448</td>
+                </tr>
+                <tr>
+                    <td>Online Advance Purchase</td>
+                    <td>26%</td>
+                    <td>$73</td>
+                    <td>$3,796</td>
+                    <td>$197,392</td>
+                </tr>
+                <tr>
+                    <td>In-Person Cash</td>
+                    <td>32%</td>
+                    <td>$47</td>
+                    <td>$3,008</td>
+                    <td>$156,416</td>
+                </tr>
+                <tr style="background: rgba(46, 204, 113, 0.1);">
+                    <td><strong>Total (Frontier Platform)</strong></td>
+                    <td>100%</td>
+                    <td><span class="number">$61.90</span></td>
+                    <td><span class="number">$12,928</span></td>
+                    <td><span class="number">$672,256</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 40px;">
+            <div class="stat-card">
+                <div class="stat-number">+39%</div>
+                <div class="stat-label">Total Revenue Increase<br>(vs. Cash-Only)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">+$183K</div>
+                <div class="stat-label">Additional Annual Revenue<br>Per Hall</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">+$3,528</div>
+                <div class="stat-label">Additional Weekly Revenue<br>Per Hall</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Cost Comparison -->
+    <section class="slide">
+        <h2>Cost Comparison: 6 Systems vs. 1 Platform</h2>
+        <p class="subtitle">Detailed Monthly Cost Analysis</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>System/Service</th>
+                    <th>Current State (6 Systems)</th>
+                    <th>Frontier Platform</th>
+                    <th>Monthly Savings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Point of Sale System</td>
+                    <td class="negative">$1,200</td>
+                    <td>$0 (included)</td>
+                    <td class="number">$1,200</td>
+                </tr>
+                <tr>
+                    <td>Player Tracking/Loyalty</td>
+                    <td class="negative">$950</td>
+                    <td>$0 (included)</td>
+                    <td class="number">$950</td>
+                </tr>
+                <tr>
+                    <td>Online Booking System</td>
+                    <td class="negative">$650</td>
+                    <td>$0 (included)</td>
+                    <td class="number">$650</td>
+                </tr>
+                <tr>
+                    <td>Accounting/Back Office</td>
+                    <td class="negative">$1,100</td>
+                    <td>$0 (included)</td>
+                    <td class="number">$1,100</td>
+                </tr>
+                <tr>
+                    <td>Payment Processing</td>
+                    <td class="negative">$850</td>
+                    <td>$0 (included)</td>
+                    <td class="number">$850</td>
+                </tr>
+                <tr>
+                    <td>Reporting/Analytics</td>
+                    <td class="negative">$550</td>
+                    <td>$0 (included)</td>
+                    <td class="number">$550</td>
+                </tr>
+                <tr>
+                    <td>IT Support/Integration</td>
+                    <td class="negative">$1,700</td>
+                    <td>$400 (reduced)</td>
+                    <td class="number">$1,300</td>
+                </tr>
+                <tr style="background: rgba(46, 204, 113, 0.1);">
+                    <td><strong>TOTAL MONTHLY COST</strong></td>
+                    <td class="negative"><strong>$7,000</strong></td>
+                    <td><strong>$400</strong></td>
+                    <td class="number"><strong>$6,600</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 40px;">
+            <div class="stat-card">
+                <div class="stat-number">$6,600</div>
+                <div class="stat-label">Monthly Cost Savings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$79,200</div>
+                <div class="stat-label">Annual Cost Savings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">94%</div>
+                <div class="stat-label">Cost Reduction Percentage</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Case Study Vanguard -->
+    <section class="slide">
+        <h2>Case Study: Vanguard Bingo Hall</h2>
+        <p class="subtitle">Real-World Performance Data - 12 Month Post-Implementation</p>
+
+        <div class="case-study-box">
+            <div class="case-study-header">Vanguard Bingo Hall - San Diego, CA</div>
+
+            <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div>
+                    <h3 style="color: #e74c3c; margin-bottom: 25px;">Before Frontier</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Monthly Revenue</span>
+                        <span class="metric-value">$41,200</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Average Ticket</span>
+                        <span class="metric-value">$43</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">System Costs</span>
+                        <span class="metric-value">$7,400/mo</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Staff Hours (Admin)</span>
+                        <span class="metric-value">22hrs/week</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Online Sales</span>
+                        <span class="metric-value">0%</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="color: #2ecc71; margin-bottom: 25px;">After Frontier (12mo)</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Monthly Revenue</span>
+                        <span class="metric-value" style="color: #2ecc71;">$74,100</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Average Ticket</span>
+                        <span class="metric-value" style="color: #2ecc71;">$64</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">System Costs</span>
+                        <span class="metric-value" style="color: #2ecc71;">$450/mo</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Staff Hours (Admin)</span>
+                        <span class="metric-value" style="color: #2ecc71;">6hrs/week</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Online Sales</span>
+                        <span class="metric-value" style="color: #2ecc71;">28%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 40px;">
+            <div class="stat-card">
+                <div class="stat-number">+80%</div>
+                <div class="stat-label">Revenue Growth</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$6,950</div>
+                <div class="stat-label">Monthly Cost Savings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">16hrs</div>
+                <div class="stat-label">Weekly Time Saved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4.2mo</div>
+                <div class="stat-label">ROI Payback Period</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: $20M+ Revenue Added -->
+    <section class="slide">
+        <h2>Aggregate Customer Impact: $20M+ Revenue Added</h2>
+        <p class="subtitle">Verified Performance Data Across Frontier Customer Base</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">$20.3M</div>
+                <div class="stat-label">Total Incremental Revenue<br>Added to Customer Base</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">67</div>
+                <div class="stat-label">Active Customer Halls<br>Using Platform</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$303K</div>
+                <div class="stat-label">Average Revenue Increase<br>Per Hall Per Year</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">34%</div>
+                <div class="stat-label">Average Revenue Growth<br>Post-Implementation</div>
+            </div>
+        </div>
+
+        <table class="data-table" style="margin-top: 50px;">
+            <thead>
+                <tr>
+                    <th>Customer Segment</th>
+                    <th>Halls</th>
+                    <th>Avg Growth Rate</th>
+                    <th>Avg Annual Increase</th>
+                    <th>Total Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Large Multi-Hall Operators (5+ locations)</td>
+                    <td>8</td>
+                    <td class="number">+42%</td>
+                    <td class="number">$485,000</td>
+                    <td class="number">$3,880,000</td>
+                </tr>
+                <tr>
+                    <td>Mid-Size Operators (2-4 locations)</td>
+                    <td>23</td>
+                    <td class="number">+36%</td>
+                    <td class="number">$325,000</td>
+                    <td class="number">$7,475,000</td>
+                </tr>
+                <tr>
+                    <td>Single-Location Halls</td>
+                    <td>36</td>
+                    <td class="number">+28%</td>
+                    <td class="number">$245,000</td>
+                    <td class="number">$8,820,000</td>
+                </tr>
+                <tr style="background: rgba(46, 204, 113, 0.1);">
+                    <td><strong>TOTAL</strong></td>
+                    <td><strong>67</strong></td>
+                    <td class="number"><strong>+34%</strong></td>
+                    <td class="number"><strong>$303,000</strong></td>
+                    <td class="number"><strong>$20,175,000</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Slide 9: Time Savings Analysis -->
+    <section class="slide">
+        <h2>Time Savings Analysis</h2>
+        <p class="subtitle">Quantified Labor Hour Reduction Through Process Automation</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Task/Process</th>
+                    <th>Current (hrs/week)</th>
+                    <th>Frontier (hrs/week)</th>
+                    <th>Time Saved</th>
+                    <th>Annual Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Manual Data Entry (sales, player tracking)</td>
+                    <td class="negative">6.5</td>
+                    <td>0.5</td>
+                    <td class="number">6.0</td>
+                    <td class="number">$28,080</td>
+                </tr>
+                <tr>
+                    <td>End-of-Day Reconciliation</td>
+                    <td class="negative">4.0</td>
+                    <td>0.8</td>
+                    <td class="number">3.2</td>
+                    <td class="number">$14,976</td>
+                </tr>
+                <tr>
+                    <td>Report Compilation (weekly/monthly)</td>
+                    <td class="negative">3.5</td>
+                    <td>0.3</td>
+                    <td class="number">3.2</td>
+                    <td class="number">$14,976</td>
+                </tr>
+                <tr>
+                    <td>Player Rewards/Loyalty Management</td>
+                    <td class="negative">2.5</td>
+                    <td>0.4</td>
+                    <td class="number">2.1</td>
+                    <td class="number">$9,828</td>
+                </tr>
+                <tr>
+                    <td>Compliance/Regulatory Reporting</td>
+                    <td class="negative">2.0</td>
+                    <td>0.2</td>
+                    <td class="number">1.8</td>
+                    <td class="number">$8,424</td>
+                </tr>
+                <tr>
+                    <td>System Updates/Troubleshooting</td>
+                    <td class="negative">1.5</td>
+                    <td>0.2</td>
+                    <td class="number">1.3</td>
+                    <td class="number">$6,084</td>
+                </tr>
+                <tr style="background: rgba(46, 204, 113, 0.1);">
+                    <td><strong>TOTAL</strong></td>
+                    <td class="negative"><strong>20.0</strong></td>
+                    <td><strong>2.4</strong></td>
+                    <td class="number"><strong>17.6 hrs/week</strong></td>
+                    <td class="number"><strong>$82,368/year</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 40px;">
+            <div class="stat-card">
+                <div class="stat-number">88%</div>
+                <div class="stat-label">Administrative Time<br>Reduction</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">915hrs</div>
+                <div class="stat-label">Annual Hours Saved<br>Per Hall</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$82K</div>
+                <div class="stat-label">Annual Labor Value<br>($90/hr loaded rate)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$1,583</div>
+                <div class="stat-label">Weekly Labor Savings</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: ROI Calculator -->
+    <section class="slide">
+        <h2>ROI Calculator</h2>
+        <p class="subtitle">Investment vs. Return Analysis - Typical Single-Hall Implementation</p>
+
+        <div class="roi-calculator">
+            <h3 style="color: #e74c3c; margin-bottom: 30px;">Investment (One-Time + First Year)</h3>
+
+            <div class="roi-row">
+                <span class="roi-label">Platform Setup & Configuration</span>
+                <span class="roi-value investment">$8,500</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label">Hardware (tablets, terminals, printers)</span>
+                <span class="roi-value investment">$6,200</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label">Data Migration & Training</span>
+                <span class="roi-value investment">$4,800</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label">First Year Platform Fees (12 months × $400)</span>
+                <span class="roi-value investment">$4,800</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label"><strong>Total First-Year Investment</strong></span>
+                <span class="roi-value investment"><strong>$24,300</strong></span>
+            </div>
+        </div>
+
+        <div class="roi-calculator" style="border-color: rgba(46, 204, 113, 0.3); margin-top: 30px;">
+            <h3 style="color: #2ecc71; margin-bottom: 30px;">Annual Return</h3>
+
+            <div class="roi-row">
+                <span class="roi-label">Revenue Increase (+34% avg)</span>
+                <span class="roi-value">$183,456</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label">System Cost Savings</span>
+                <span class="roi-value">$79,200</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label">Labor Savings (automated processes)</span>
+                <span class="roi-value">$82,368</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label">Payment Processing Fees (new cost)</span>
+                <span class="roi-value" style="color: #e74c3c;">-$19,500</span>
+            </div>
+            <div class="roi-row">
+                <span class="roi-label"><strong>Net Annual Benefit</strong></span>
+                <span class="roi-value"><strong>$325,524</strong></span>
+            </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top: 40px; background: linear-gradient(135deg, rgba(46, 204, 113, 0.2) 0%, rgba(46, 204, 113, 0.1) 100%); border-color: #2ecc71;">
+            <p style="color: #2ecc71; font-size: 1.8rem;">First-Year ROI: 1,239% | Net Gain: $301,224 (after $24,300 investment)</p>
+        </div>
+    </section>
+
+    <!-- Slide 11: Payback Period -->
+    <section class="slide">
+        <h2>Payback Period Analysis</h2>
+        <p class="subtitle">When Do You Break Even? Month-by-Month Financial Model</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Monthly Benefit</th>
+                    <th>Cumulative Benefit</th>
+                    <th>Remaining Investment</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Month 0 (Implementation)</td>
+                    <td class="negative">-$19,500</td>
+                    <td class="negative">-$19,500</td>
+                    <td class="negative">$24,300</td>
+                    <td>Implementation</td>
+                </tr>
+                <tr>
+                    <td>Month 1</td>
+                    <td class="number">$27,127</td>
+                    <td class="number">$7,627</td>
+                    <td class="negative">$16,673</td>
+                    <td>Operating</td>
+                </tr>
+                <tr>
+                    <td>Month 2</td>
+                    <td class="number">$27,127</td>
+                    <td class="number">$34,754</td>
+                    <td class="number">$10,454</td>
+                    <td>Positive Cash Flow</td>
+                </tr>
+                <tr style="background: rgba(241, 196, 15, 0.1);">
+                    <td><strong>Month 3</strong></td>
+                    <td class="number"><strong>$27,127</strong></td>
+                    <td class="number"><strong>$61,881</strong></td>
+                    <td class="number"><strong>$37,581</strong></td>
+                    <td style="color: #f1c40f;"><strong>BREAK EVEN</strong></td>
+                </tr>
+                <tr>
+                    <td>Month 6</td>
+                    <td class="number">$27,127</td>
+                    <td class="number">$143,262</td>
+                    <td class="number">$118,962</td>
+                    <td>Profit</td>
+                </tr>
+                <tr>
+                    <td>Month 12</td>
+                    <td class="number">$27,127</td>
+                    <td class="number">$306,024</td>
+                    <td class="number">$281,724</td>
+                    <td>Strong Profit</td>
+                </tr>
+                <tr style="background: rgba(46, 204, 113, 0.1);">
+                    <td><strong>Year 2 (Total)</strong></td>
+                    <td class="number"><strong>$27,127/mo</strong></td>
+                    <td class="number"><strong>$631,548</strong></td>
+                    <td class="number"><strong>$607,248</strong></td>
+                    <td><strong>Cumulative Profit</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 40px;">
+            <div class="stat-card">
+                <div class="stat-number warning">2.8mo</div>
+                <div class="stat-label">Payback Period<br>To Recover Investment</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$27,127</div>
+                <div class="stat-label">Average Monthly Benefit<br>(Ongoing)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$607K</div>
+                <div class="stat-label">Cumulative Profit<br>By End of Year 2</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Benchmark Comparison -->
+    <section class="slide">
+        <h2>Benchmark Comparison</h2>
+        <p class="subtitle">Frontier-Enabled Halls vs. Industry Average Performance</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Industry Average</th>
+                    <th>Frontier Customers</th>
+                    <th>Difference</th>
+                    <th>Percentile</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Average Revenue per Hall (Annual)</td>
+                    <td>$540,000</td>
+                    <td class="number">$723,000</td>
+                    <td class="number">+$183,000</td>
+                    <td class="number">78th</td>
+                </tr>
+                <tr>
+                    <td>Average Ticket Size</td>
+                    <td>$42</td>
+                    <td class="number">$58</td>
+                    <td class="number">+$16</td>
+                    <td class="number">82nd</td>
+                </tr>
+                <tr>
+                    <td>Player Retention Rate (Annual)</td>
+                    <td>62%</td>
+                    <td class="number">79%</td>
+                    <td class="number">+17 pts</td>
+                    <td class="number">85th</td>
+                </tr>
+                <tr>
+                    <td>Online/Advance Sales %</td>
+                    <td>8%</td>
+                    <td class="number">26%</td>
+                    <td class="number">+18 pts</td>
+                    <td class="number">91st</td>
+                </tr>
+                <tr>
+                    <td>Credit Card Acceptance Rate</td>
+                    <td>35%</td>
+                    <td class="number">94%</td>
+                    <td class="number">+59 pts</td>
+                    <td class="number">96th</td>
+                </tr>
+                <tr>
+                    <td>Admin Hours per Week</td>
+                    <td>18.5</td>
+                    <td class="number">2.4</td>
+                    <td class="number">-16.1</td>
+                    <td class="number">92nd</td>
+                </tr>
+                <tr>
+                    <td>Technology Cost (% of Revenue)</td>
+                    <td>12.8%</td>
+                    <td class="number">0.7%</td>
+                    <td class="number">-12.1 pts</td>
+                    <td class="number">97th</td>
+                </tr>
+                <tr>
+                    <td>Year-over-Year Growth Rate</td>
+                    <td>-2.3%</td>
+                    <td class="number">+18.6%</td>
+                    <td class="number">+20.9 pts</td>
+                    <td class="number">89th</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="highlight-box" style="margin-top: 40px;">
+            <p>Frontier customers perform in the 78th-97th percentile across all key operational metrics</p>
+        </div>
+    </section>
+
+    <!-- Slide 13: Transaction Data Analysis -->
+    <section class="slide">
+        <h2>Transaction Data Analysis</h2>
+        <p class="subtitle">Comparative Ticket Size by Payment Method and Channel</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">$43</div>
+                <div class="stat-label">In-Person Cash<br>Average Ticket</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$61</div>
+                <div class="stat-label">In-Person Credit Card<br>Average Ticket</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$73</div>
+                <div class="stat-label">Online Advance Purchase<br>Average Ticket</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">+70%</div>
+                <div class="stat-label">Premium: Online vs. Cash<br>Ticket Size Increase</div>
+            </div>
+        </div>
+
+        <table class="data-table" style="margin-top: 50px;">
+            <thead>
+                <tr>
+                    <th>Transaction Type</th>
+                    <th>% of Transactions</th>
+                    <th>Avg Ticket</th>
+                    <th>Add-On Rate</th>
+                    <th>Premium Items %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Walk-in Cash Purchase</td>
+                    <td>32%</td>
+                    <td>$43</td>
+                    <td>12%</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <td>Walk-in Credit Card</td>
+                    <td>42%</td>
+                    <td class="number">$61</td>
+                    <td class="number">34%</td>
+                    <td class="number">22%</td>
+                </tr>
+                <tr>
+                    <td>Online Advance (24+ hours)</td>
+                    <td>18%</td>
+                    <td class="number">$73</td>
+                    <td class="number">51%</td>
+                    <td class="number">38%</td>
+                </tr>
+                <tr>
+                    <td>Online Advance (2-24 hours)</td>
+                    <td>8%</td>
+                    <td class="number">$68</td>
+                    <td class="number">43%</td>
+                    <td class="number">31%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="comparison-grid" style="margin-top: 40px;">
+            <div class="stat-card">
+                <h4 style="color: #8ec5fc; margin-bottom: 20px;">Key Finding #1</h4>
+                <p>Credit card transactions average <strong style="color: #2ecc71;">42% higher</strong> than cash due to increased add-on purchases and premium item selection</p>
+            </div>
+            <div class="stat-card">
+                <h4 style="color: #8ec5fc; margin-bottom: 20px;">Key Finding #2</h4>
+                <p>Online advance purchases are <strong style="color: #2ecc71;">70% higher</strong> than walk-in cash, driven by pre-commitment and package bundling</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 14: Compliance Cost Reduction -->
+    <section class="slide">
+        <h2>Compliance Cost Reduction</h2>
+        <p class="subtitle">Automated Reporting Reduces Regulatory Burden by 87%</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Compliance Task</th>
+                    <th>Frequency</th>
+                    <th>Current (hrs/mo)</th>
+                    <th>Frontier (hrs/mo)</th>
+                    <th>Time Saved</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Daily Transaction Logs</td>
+                    <td>Daily</td>
+                    <td class="negative">12.0</td>
+                    <td>0.5</td>
+                    <td class="number">11.5</td>
+                </tr>
+                <tr>
+                    <td>Weekly Revenue Reports</td>
+                    <td>Weekly</td>
+                    <td class="negative">6.0</td>
+                    <td>0.3</td>
+                    <td class="number">5.7</td>
+                </tr>
+                <tr>
+                    <td>Monthly Tax Filings</td>
+                    <td>Monthly</td>
+                    <td class="negative">8.0</td>
+                    <td>1.2</td>
+                    <td class="number">6.8</td>
+                </tr>
+                <tr>
+                    <td>Quarterly Regulatory Reports</td>
+                    <td>Quarterly</td>
+                    <td class="negative">4.0</td>
+                    <td>0.4</td>
+                    <td class="number">3.6</td>
+                </tr>
+                <tr>
+                    <td>Player Database Audits</td>
+                    <td>Monthly</td>
+                    <td class="negative">3.0</td>
+                    <td>0.2</td>
+                    <td class="number">2.8</td>
+                </tr>
+                <tr>
+                    <td>Cash Handling Documentation</td>
+                    <td>Daily</td>
+                    <td class="negative">8.0</td>
+                    <td>1.5</td>
+                    <td class="number">6.5</td>
+                </tr>
+                <tr style="background: rgba(46, 204, 113, 0.1);">
+                    <td><strong>TOTAL MONTHLY HOURS</strong></td>
+                    <td>-</td>
+                    <td class="negative"><strong>41.0</strong></td>
+                    <td><strong>4.1</strong></td>
+                    <td class="number"><strong>36.9</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 40px;">
+            <div class="stat-card">
+                <div class="stat-number">90%</div>
+                <div class="stat-label">Time Reduction<br>Compliance Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">443hrs</div>
+                <div class="stat-label">Annual Hours Saved<br>Regulatory Reporting</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$39,870</div>
+                <div class="stat-label">Annual Cost Savings<br>(@$90/hr loaded)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Audit Accuracy Rate<br>Automated Reports</div>
+            </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top: 40px;">
+            <p>Zero audit findings or compliance penalties reported across Frontier customer base (67 halls, 3+ years)</p>
+        </div>
+    </section>
+
+    <!-- Slide 15: Platform Architecture -->
+    <section class="slide">
+        <h2>The Platform</h2>
+        <p class="subtitle">Unified Architecture Powering All Capabilities</p>
+
+        <div class="architecture-grid">
+            <div class="architecture-card">
+                <h4>Player Management</h4>
+                <p>Unified player database, purchase history, rewards tracking, automated loyalty programs</p>
+            </div>
+            <div class="architecture-card">
+                <h4>Point of Sale</h4>
+                <p>Multi-device support, offline capability, integrated payment processing, real-time inventory</p>
+            </div>
+            <div class="architecture-card">
+                <h4>Online Sales</h4>
+                <p>Mobile-responsive booking, advance purchase incentives, package builder, calendar integration</p>
+            </div>
+            <div class="architecture-card">
+                <h4>Payment Processing</h4>
+                <p>Integrated credit/debit, contactless, online payments, PCI compliance, settlement reporting</p>
+            </div>
+            <div class="architecture-card">
+                <h4>Analytics & Reporting</h4>
+                <p>Real-time dashboards, custom reports, regulatory compliance exports, predictive analytics</p>
+            </div>
+            <div class="architecture-card">
+                <h4>Back Office</h4>
+                <p>Automated accounting, tax calculation, inventory management, staff scheduling, vendor integration</p>
+            </div>
+        </div>
+
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 50px;">
+            <div class="stat-card">
+                <div class="stat-number">99.97%</div>
+                <div class="stat-label">System Uptime<br>Last 12 Months</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Customer Support<br>Phone & Chat</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">&lt;2min</div>
+                <div class="stat-label">Average Support<br>Response Time</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 16: Next Step -->
+    <section class="slide">
+        <h2>Next Step: See Your Numbers</h2>
+        <p class="subtitle">Custom Financial Analysis for Your Hall</p>
+
+        <div class="cta-box">
+            <h3>Get Your Custom ROI Analysis</h3>
+            <p>We'll prepare a detailed financial model based on your current operations:</p>
+        </div>
+
+        <div class="stats-grid" style="margin-top: 40px;">
+            <div class="stat-card">
+                <h4 style="color: #8ec5fc; margin-bottom: 15px; font-size: 1.4rem;">Step 1: Data Collection</h4>
+                <p style="font-size: 1.1rem;">15-minute call to gather current revenue, transaction volume, system costs, and pain points</p>
+            </div>
+            <div class="stat-card">
+                <h4 style="color: #8ec5fc; margin-bottom: 15px; font-size: 1.4rem;">Step 2: Custom Analysis</h4>
+                <p style="font-size: 1.1rem;">We model your specific revenue potential, cost savings, and payback period using your actual data</p>
+            </div>
+            <div class="stat-card">
+                <h4 style="color: #8ec5fc; margin-bottom: 15px; font-size: 1.4rem;">Step 3: Results Review</h4>
+                <p style="font-size: 1.1rem;">30-minute presentation of your custom financial model with conservative and optimistic scenarios</p>
+            </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top: 50px; background: linear-gradient(135deg, rgba(74, 144, 217, 0.2) 0%, rgba(142, 197, 252, 0.1) 100%); border-color: #4a90d9;">
+            <p style="color: #8ec5fc; font-size: 1.6rem;">
+                <strong>No obligation. No sales pressure. Just the numbers.</strong><br>
+                See exactly what Frontier could mean for your operation.
+            </p>
+        </div>
+
+        <div style="margin-top: 60px; text-align: center;">
+            <p style="font-size: 1.8rem; font-weight: 700; color: #ffffff; margin-bottom: 15px;">
+                Schedule Your Custom Analysis
+            </p>
+            <p style="font-size: 1.4rem; color: rgba(255,255,255,0.8);">
+                Contact: [Your Contact Info Here]
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide 17: Closing -->
+    <section class="slide">
+        <h1>The Data Speaks</h1>
+
+        <div class="stats-grid" style="margin-top: 60px;">
+            <div class="stat-card">
+                <div class="stat-number">+34%</div>
+                <div class="stat-label">Average Revenue Growth<br>(Verified Customer Data)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$325K</div>
+                <div class="stat-label">Average Annual Benefit<br>Per Hall</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2.8mo</div>
+                <div class="stat-label">Average Payback Period<br>Full Investment</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1,239%</div>
+                <div class="stat-label">First-Year ROI<br>(Typical Implementation)</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 80px; text-align: center;">
+            <p style="font-size: 2rem; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 30px;">
+                Every number in this presentation is backed by real customer data.
+            </p>
+            <p style="font-size: 1.6rem; color: rgba(255,255,255,0.7);">
+                The question isn't whether this works—the data proves it does.<br>
+                The question is: when do you want to start seeing these results?
+            </p>
+        </div>
+
+        <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.5); text-align: center;">
+                Frontier Gaming Systems | Data-Driven Analysis | 2025
+            </p>
+        </div>
+    </section>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const buttons = document.querySelectorAll('.slide-btn');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            buttons[currentSlide].classList.remove('active');
+            currentSlide = n;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            slides[currentSlide].classList.add('active');
+            buttons[currentSlide].classList.add('active');
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                goToSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                goToSlide(slides.length - 1);
+            }
+        });
+
+        // Checklist toggle functionality
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+        }
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) prevSlide();
+        }
+    </script>
+
+</body>
+</html>
