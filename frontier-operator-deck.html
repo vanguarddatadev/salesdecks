@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontier Gaming Systems - Operator Focus Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 400px;
+        }
+
+        .slide-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .slide-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .slide-btn.active {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            color: #0a0a0f;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .control-panel h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #2ecc71, #8ec5fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .checklist {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item.checked .checkbox {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            position: relative;
+        }
+
+        .checklist-item.checked .checkbox::after {
+            content: 'checkmark';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0a0a0f;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .checklist-text {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            text-align: center;
+        }
+
+        .title-slide img {
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+
+        .title-slide h1 {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .title-slide .subtitle {
+            font-size: 32px;
+            font-weight: 600;
+            color: #8ec5fc;
+            margin-bottom: 40px;
+        }
+
+        .title-slide .tagline {
+            font-size: 24px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Content Slides */
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        h3 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #8ec5fc;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #2ecc71, #8ec5fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-alt {
+            background: linear-gradient(135deg, #f1c40f, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Pain Points */
+        .pain-points {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pain-point {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid rgba(231, 76, 60, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .pain-point h4 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pain-point p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(142, 197, 252, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-card h4 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #8ec5fc;
+        }
+
+        .benefit-card p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .stat-box {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px 30px;
+        }
+
+        .stat-number {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #2ecc71, #8ec5fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.4;
+        }
+
+        /* Feature Highlight */
+        .feature-highlight {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(142, 197, 252, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            margin-top: 40px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .feature-list li {
+            font-size: 22px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: 'checkmark';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #2ecc71;
+            color: #0a0a0f;
+            border-radius: 50%;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .column-content h3 {
+            margin-bottom: 25px;
+        }
+
+        .column-content p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 20px;
+        }
+
+        .column-content ul {
+            list-style: none;
+            margin-top: 25px;
+        }
+
+        .column-content ul li {
+            font-size: 18px;
+            padding: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .column-content ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        /* Big Number Highlight */
+        .big-number {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .big-number .number {
+            font-size: 120px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f1c40f, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .big-number .label {
+            font-size: 28px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Architecture Diagram */
+        .architecture {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px;
+            margin-top: 40px;
+        }
+
+        .arch-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .arch-layer {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .arch-layer h4 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #8ec5fc;
+        }
+
+        .arch-layer p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .arch-layer.highlight {
+            background: rgba(46, 204, 113, 0.1);
+            border-color: rgba(46, 204, 113, 0.4);
+        }
+
+        .arch-layer.highlight h4 {
+            color: #2ecc71;
+        }
+
+        /* Contact/CTA */
+        .cta-container {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 20px;
+            padding: 60px;
+            margin-top: 40px;
+        }
+
+        .cta-box h3 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #2ecc71;
+        }
+
+        .contact-info {
+            font-size: 24px;
+            line-height: 2;
+            margin-top: 30px;
+        }
+
+        .contact-info a {
+            color: #8ec5fc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            color: #2ecc71;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .slide {
+                page-break-after: always;
+                page-break-inside: avoid;
+                display: flex !important;
+                min-height: 100vh;
+                background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .slide-toggle {
+                display: none !important;
+            }
+
+            .slide:last-child {
+                page-break-after: auto;
+            }
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 40px;
+            }
+
+            h2 {
+                font-size: 42px;
+            }
+
+            .stats-container,
+            .pain-points,
+            .benefits-grid,
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide Toggle Buttons -->
+    <div class="slide-toggle">
+        <button class="slide-btn" onclick="showSlide(0)">Control</button>
+        <button class="slide-btn" onclick="showSlide(1)">Title</button>
+        <button class="slide-btn" onclick="showSlide(2)">Pain Points</button>
+        <button class="slide-btn" onclick="showSlide(3)">Vision</button>
+        <button class="slide-btn" onclick="showSlide(4)">Results</button>
+        <button class="slide-btn" onclick="showSlide(5)">Check-In</button>
+        <button class="slide-btn" onclick="showSlide(6)">Floor Control</button>
+        <button class="slide-btn" onclick="showSlide(7)">End of Night</button>
+        <button class="slide-btn" onclick="showSlide(8)">No Counting</button>
+        <button class="slide-btn" onclick="showSlide(9)">Credit Cards</button>
+        <button class="slide-btn" onclick="showSlide(10)">Pre-Sales</button>
+        <button class="slide-btn" onclick="showSlide(11)">One Screen</button>
+        <button class="slide-btn" onclick="showSlide(12)">Your Devices</button>
+        <button class="slide-btn" onclick="showSlide(13)">Support</button>
+        <button class="slide-btn" onclick="showSlide(14)">Platform</button>
+        <button class="slide-btn" onclick="showSlide(15)">Contact</button>
+        <button class="slide-btn" onclick="showSlide(16)">Close</button>
+    </div>
+
+    <!-- Slide 0: Control Panel -->
+    <div class="slide active">
+        <div class="control-panel">
+            <h1>Operator Focus Deck</h1>
+            <div class="checklist">
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(1);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Title Slide</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(2);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Your Time Matters - Pain Points</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(3);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">What If Your Night Ran Itself?</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(4);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Real Results from Real Halls</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(5);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Faster Check-In, Happier Players</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(6);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Real-Time Floor Control</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(7);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">End of Night in Minutes</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(8);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">No More Manual Counting</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(9);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Credit Cards = Bigger Sales</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(10);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Online Pre-Sales = Smoother Nights</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(11);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">One Screen, Everything You Need</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(12);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Works on Your Devices</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(13);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Help When You Need It</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(14);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">The Frontier Platform</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(15);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Let's Talk</div>
+                </div>
+                <div class="checklist-item" onclick="toggleCheck(this); showSlide(16);">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">Closing</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 1: Title Slide -->
+    <div class="slide">
+        <div class="title-slide">
+            <img src="file:///C:/Users/aring/Downloads/Logo.png" alt="Frontier Gaming Systems" style="max-width: 300px; margin-bottom: 30px;">
+            <h1>Run Better Nights.<br>Make More Money.</h1>
+            <div class="subtitle">Operator Focus Presentation</div>
+            <div class="tagline">The complete platform built for bingo hall operators who want faster, smoother, more profitable sessions.</div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Your Time Matters -->
+    <div class="slide">
+        <div class="content-container">
+            <h2>Your Time Matters</h2>
+            <h3 class="gradient-text-alt">Every night, the same headaches...</h3>
+            <div class="pain-points">
+                <div class="pain-point">
+                    <h4>⏰ Check-In Chaos</h4>
+                    <p>Lines at the door. Players getting frustrated. Runners scrambling to get inventory out. You're already behind before the first game starts.</p>
+                </div>
+                <div class="pain-point">
+                    <h4>📋 Runner Confusion</h4>
+                    <p>"Who has what?" "Did they pay?" "Where's the inventory?" Constant questions. No clear answers. Lost sales.</p>
+                </div>
+                <div class="pain-point">
+                    <h4>💸 End-of-Night Stress</h4>
+                    <p>Counting. Recounting. Reconciling. Trying to figure out where the cash went. You're there until midnight, every night.</p>
+                </div>
+                <div class="pain-point">
+                    <h4>📊 Incomplete Picture</h4>
+                    <p>Which games sold well? Which didn't? What should you order next week? You're guessing instead of knowing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: What If Your Night Ran Itself? -->
+    <div class="slide">
+        <div class="content-container">
+            <h2 class="gradient-text">What If Your Night Ran Itself?</h2>
+            <div class="feature-highlight">
+                <h3>Imagine this...</h3>
+                <ul class="feature-list">
+                    <li>Check-in takes seconds per player, not minutes. Lines disappear.</li>
+                    <li>Every runner knows exactly what they have and what's been sold. No confusion.</li>
+                    <li>Real-time tracking means you always know your floor status. No surprises.</li>
+                    <li>End of night? Ten minutes to reconcile everything. You're home by 10pm.</li>
+                    <li>Complete reporting shows you exactly what sold, what didn't, and what to reorder.</li>
+                    <li>Credit card payments mean bigger sales and happier players.</li>
+                </ul>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <h3 class="gradient-text" style="font-size: 32px;">That's Frontier.</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Results/Stats -->
+    <div class="slide">
+        <div class="content-container">
+            <h2>Real Results from Real Halls</h2>
+            <h3>Operators running Frontier report:</h3>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-number">25-40%</div>
+                    <div class="stat-label">Revenue Increase</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">75%</div>
+                    <div class="stat-label">Faster Check-In</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">90%</div>
+                    <div class="stat-label">Less Time Reconciling</div>
+                </div>
+            </div>
+            <div class="big-number">
+                <div class="number">$18K+</div>
+                <div class="label">Average monthly revenue increase per hall</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Faster Check-In -->
+    <div class="slide">
+        <div class="content-container">
+            <h2 class="gradient-text">Faster Check-In, Happier Players</h2>
+            <div class="two-column">
+                <div class="column-content">
+                    <h3>The Old Way</h3>
+                    <ul>
+                        <li>Handwrite receipts</li>
+                        <li>Calculate totals manually</li>
+                        <li>Count cash slowly</li>
+                        <li>Players wait 3-5 minutes each</li>
+                        <li>Lines out the door</li>
+                        <li>Frustrated customers</li>
+                    </ul>
+                </div>
+                <div class="column-content">
+                    <h3 class="gradient-text">The Frontier Way</h3>
+                    <ul>
+                        <li>Tap or scan player ID</li>
+                        <li>Auto-calculated totals</li>
+                        <li>Credit card or cash accepted</li>
+                        <li>30-45 seconds per transaction</li>
+                        <li>No lines</li>
+                        <li>Players start playing faster</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <h3 class="gradient-text">Check-in is 75% faster. Your night starts smoother.</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Real-Time Floor Control -->
+    <div class="slide">
+        <div class="content-container">
+            <h2>Real-Time Floor Control</h2>
+            <h3 class="gradient-text">See everything happening on your floor. Right now.</h3>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <h4>Runner Tracking</h4>
+                    <p>Every runner shows up on your screen. See what inventory they have, what they've sold, and what they still need to collect.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <h4>Inventory Status</h4>
+                    <p>Know exactly how many packs, sheets, and electronic games are out on the floor. No more "did we run out?" questions.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h4>Sales Tracking</h4>
+                    <p>Watch sales come in live. See which games are hot tonight. Make smart decisions in real-time.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h4>Session Control</h4>
+                    <p>Start games, call numbers, track winners. Everything from one dashboard. No more juggling systems.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: End of Night in Minutes -->
+    <div class="slide">
+        <div class="content-container">
+            <h2 class="gradient-text">End of Night in Minutes</h2>
+            <h3>Not hours. Minutes.</h3>
+            <div class="two-column">
+                <div class="column-content">
+                    <p style="font-size: 24px; font-weight: 600; color: #e74c3c;">Before Frontier:</p>
+                    <ul>
+                        <li>Count cash from every runner</li>
+                        <li>Reconcile paper receipts</li>
+                        <li>Match inventory manually</li>
+                        <li>Fill out spreadsheets</li>
+                        <li>Double-check everything</li>
+                        <li>Still there at midnight</li>
+                    </ul>
+                    <div class="big-number" style="margin-top: 40px;">
+                        <div class="number" style="font-size: 80px;">2-3 hrs</div>
+                    </div>
+                </div>
+                <div class="column-content">
+                    <p style="font-size: 24px; font-weight: 600; color: #2ecc71;">With Frontier:</p>
+                    <ul>
+                        <li>Click "End Session"</li>
+                        <li>System auto-reconciles everything</li>
+                        <li>Instant reports generated</li>
+                        <li>Cash matches automatically</li>
+                        <li>Everything balanced</li>
+                        <li>Home by 10pm</li>
+                    </ul>
+                    <div class="big-number" style="margin-top: 40px;">
+                        <div class="number" style="font-size: 80px;">10 min</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: No More Manual Counting -->
+    <div class="slide">
+        <div class="content-container">
+            <h2>No More Manual Counting</h2>
+            <h3 class="gradient-text">The system counts for you. Automatically.</h3>
+            <div class="feature-highlight">
+                <ul class="feature-list">
+                    <li>Every transaction recorded instantly - no paper receipts to track</li>
+                    <li>All runner sales auto-tracked - you know who sold what, when</li>
+                    <li>Cash and card payments reconciled automatically</li>
+                    <li>Inventory matched to sales in real-time - no manual counting</li>
+                    <li>Complete audit trail - every sale tracked from door to deposit</li>
+                    <li>Nightly reports generated automatically - email them or print them</li>
+                </ul>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <h3 class="gradient-text">90% reduction in reconciliation time. Zero counting errors.</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Credit Cards = Bigger Sales -->
+    <div class="slide">
+        <div class="content-container">
+            <h2 class="gradient-text">Credit Cards = Bigger Sales</h2>
+            <h3>When players can pay with cards, they spend more.</h3>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-number">47%</div>
+                    <div class="stat-label">Higher average transaction with credit cards</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">65%</div>
+                    <div class="stat-label">Of players prefer to pay with cards</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">$12</div>
+                    <div class="stat-label">More per transaction on average</div>
+                </div>
+            </div>
+            <div class="feature-highlight" style="margin-top: 50px;">
+                <h3>Why It Matters</h3>
+                <p style="font-size: 20px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);">
+                    Players aren't limited by the cash in their wallet. They can buy that extra pack. Upgrade to the premium game. Add on specials. Every transaction is an opportunity for a bigger sale. And you're not dealing with as much cash at end of night.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Online Pre-Sales -->
+    <div class="slide">
+        <div class="content-container">
+            <h2>Online Pre-Sales = Smoother Nights</h2>
+            <h3 class="gradient-text">Let players buy online before they arrive</h3>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h4>Reduce Door Congestion</h4>
+                    <p>Players who pre-purchase walk right in. No check-in line. No waiting. They grab their packet and sit down.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💳</div>
+                    <h4>Guaranteed Sales</h4>
+                    <p>Pre-sales are paid for before the night starts. Money in the bank. No risk of players not showing up.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h4>Better Planning</h4>
+                    <p>See pre-sale numbers before doors open. Know exactly how much inventory to prep. No guessing.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">😊</div>
+                    <h4>Happier Players</h4>
+                    <p>Convenience matters. Players love being able to secure their spot and skip the line. More satisfied customers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: One Screen -->
+    <div class="slide">
+        <div class="content-container">
+            <h2 class="gradient-text">One Screen, Everything You Need</h2>
+            <h3>No more switching between systems.</h3>
+            <div class="feature-highlight">
+                <h3>Your Unified Dashboard</h3>
+                <ul class="feature-list">
+                    <li>POS / Check-in - Ring up sales, accept payments, print receipts</li>
+                    <li>Floor Management - Track runners, inventory, and sales in real-time</li>
+                    <li>Session Control - Start games, call numbers, manage winners</li>
+                    <li>Reporting - Instant access to sales, inventory, and performance data</li>
+                    <li>Player Management - Lookup regulars, track preferences, manage accounts</li>
+                    <li>Staff Tools - Assign runners, manage shifts, track performance</li>
+                </ul>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <h3>One login. One system. Everything integrated.</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Works on Your Devices -->
+    <div class="slide">
+        <div class="content-container">
+            <h2>Works on Your Devices</h2>
+            <h3 class="gradient-text">No expensive hardware required. Use what you already have.</h3>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💻</div>
+                    <h4>Any Computer</h4>
+                    <p>Works in any modern web browser. Windows, Mac, Linux - doesn't matter. If it has Chrome or Safari, it runs Frontier.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📱</div>
+                    <h4>Tablets & Phones</h4>
+                    <p>Give runners tablets or phones. They can sell from anywhere on the floor. Real-time sync with your main system.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🖨️</div>
+                    <h4>Standard Printers</h4>
+                    <p>Receipt printers, label printers, regular office printers - we work with what you've got. No proprietary hardware.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h4>Save Money</h4>
+                    <p>No $10,000 terminals. No locked-in hardware vendors. Use standard equipment and save thousands.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Support -->
+    <div class="slide">
+        <div class="content-container">
+            <h2 class="gradient-text">Help When You Need It</h2>
+            <h3>You're not alone. We've got your back.</h3>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📞</div>
+                    <h4>Live Support During Sessions</h4>
+                    <p>Phone and chat support available during your operating hours. Real humans who understand bingo operations.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎓</div>
+                    <h4>Training Included</h4>
+                    <p>We train you and your staff. Hands-on sessions, video tutorials, written guides. Whatever learning style works for you.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h4>Smooth Implementation</h4>
+                    <p>We handle the setup. Data migration. System configuration. You focus on running your hall, we handle the tech.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <h4>Continuous Updates</h4>
+                    <p>Regular feature updates and improvements. No extra cost. Your system gets better over time automatically.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: Platform Architecture -->
+    <div class="slide">
+        <div class="content-container">
+            <h2>The Frontier Platform</h2>
+            <h3 class="gradient-text">Built for operators. Designed for results.</h3>
+            <div class="architecture">
+                <div class="arch-layers">
+                    <div class="arch-layer highlight">
+                        <h4>Your Operations Layer</h4>
+                        <p>POS • Floor Management • Session Control • Real-Time Reporting</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h4>Player Experience Layer</h4>
+                        <p>Online Pre-Sales • Mobile App • Player Portal • Loyalty Programs</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h4>Business Intelligence Layer</h4>
+                        <p>Analytics • Forecasting • Inventory Management • Performance Tracking</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h4>Integration Layer</h4>
+                        <p>Payment Processing • Accounting Systems • Compliance Tools • Third-Party Services</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h4>Cloud Infrastructure</h4>
+                        <p>Secure • Reliable • Scalable • Always Available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Contact/CTA -->
+    <div class="slide">
+        <div class="cta-container">
+            <h2 class="gradient-text">Let's Talk</h2>
+            <h3>See Frontier in action at your hall</h3>
+            <div class="cta-box">
+                <h3>Schedule a Demo</h3>
+                <p style="font-size: 20px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);">
+                    We'll show you exactly how Frontier works in your environment. Bring your questions. We'll show you real results.
+                </p>
+                <div class="contact-info">
+                    <div><a href="mailto:info@frontiergaming.com">info@frontiergaming.com</a></div>
+                    <div><a href="tel:+18005551234">(800) 555-1234</a></div>
+                    <div><a href="https://frontiergaming.com">frontiergaming.com</a></div>
+                </div>
+            </div>
+            <div style="margin-top: 50px; font-size: 18px; color: rgba(255, 255, 255, 0.6);">
+                <p>Ask about our risk-free trial program</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Closing -->
+    <div class="slide">
+        <div class="title-slide">
+            <img src="file:///C:/Users/aring/Downloads/Logo.png" alt="Frontier Gaming Systems" style="max-width: 300px; margin-bottom: 30px;">
+            <h1 class="gradient-text">Run Better Nights.<br>Make More Money.</h1>
+            <div class="subtitle" style="color: rgba(255, 255, 255, 0.7); margin-top: 40px;">
+                Frontier Gaming Systems
+            </div>
+            <div class="tagline" style="margin-top: 30px;">
+                The complete platform built for bingo hall operators.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const buttons = document.querySelectorAll('.slide-btn');
+
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected slide
+            slides[index].classList.add('active');
+            buttons[index].classList.add('active');
+
+            currentSlide = index;
+        }
+
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const slides = document.querySelectorAll('.slide');
+
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                showSlide(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                showSlide(slides.length - 1);
+            }
+        });
+
+        // Initialize first slide as active
+        showSlide(0);
+    </script>
+</body>
+</html>
